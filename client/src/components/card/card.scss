@@ -1,0 +1,411 @@
+.card {
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    padding: 16px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    min-width: 0;
+    overflow: hidden;
+    position: relative;
+    
+    // Animated background gradient
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.1), transparent);
+      transition: left 0.6s ease;
+      z-index: 1;
+    }
+    
+    // Glowing border effect
+    &::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 14px;
+      background: linear-gradient(45deg, #3498db, #e74c3c, #f39c12, #27ae60);
+      background-size: 400% 400%;
+      z-index: -1;
+      opacity: 0;
+      animation: gradientShift 3s ease infinite;
+      transition: opacity 0.3s ease;
+    }
+  
+    &:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.08);
+      
+      &::before {
+        left: 100%;
+      }
+      
+      &::after {
+        opacity: 1;
+      }
+      
+      .imageContainer {
+        img {
+          transform: scale(1.1);
+        }
+        
+        .tag {
+          animation: tagPulse 0.6s ease;
+        }
+      }
+      
+      .price {
+        animation: priceGlow 0.8s ease;
+      }
+    }
+    
+    // Staggered animation on load
+    animation: cardSlideIn 0.6s ease forwards;
+    opacity: 0;
+    transform: translateY(30px);
+    
+    &:nth-child(1) { animation-delay: 0.1s; }
+    &:nth-child(2) { animation-delay: 0.2s; }
+    &:nth-child(3) { animation-delay: 0.3s; }
+    &:nth-child(4) { animation-delay: 0.4s; }
+    &:nth-child(5) { animation-delay: 0.5s; }
+  
+    .imageContainer {
+      flex: 0 0 180px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      z-index: 2;
+      height: 120px;
+  
+      img, .lazy-image-container, .lazy-image {
+        width: 180px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      
+      .lazy-image-container {
+        width: 100%;
+        height: 100%;
+      }
+      
+      img, .lazy-image {
+        filter: brightness(1) saturate(1);
+      }
+      
+      // Image overlay effect
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(52, 152, 219, 0.2) 0%, rgba(155, 89, 182, 0.2) 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: 1;
+        border-radius: 10px;
+      }
+      
+      &:hover::before {
+        opacity: 1;
+      }
+  
+      .tag {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        padding: 4px 10px;
+        font-size: 10px;
+        font-weight: 600;
+        border-radius: 20px;
+        z-index: 3;
+        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.4);
+        transition: all 0.3s ease;
+        
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }
+  
+    .textContainer {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+  
+      .title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2c3e50;
+        text-decoration: none;
+        display: inline-block;
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+  
+        a {
+          color: inherit;
+          text-decoration: none;
+  
+          &:hover {
+            color: #fece51;
+          }
+        }
+      }
+  
+      .address {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: #7f8c8d;
+  
+        img {
+          width: 14px;
+          height: 14px;
+        }
+      }
+  
+      .price {
+        font-size: 20px;
+        font-weight: 700;
+        color: #00c389;
+      }
+  
+      .bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+  
+        .features {
+          display: flex;
+          gap: 15px;
+  
+          .feature {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            color: #555;
+  
+            img {
+              width: 16px;
+              height: 16px;
+            }
+          }
+        }
+  
+        .icons {
+          display: flex;
+          gap: 10px;
+  
+          .icon {
+            position: relative;
+            cursor: pointer;
+            background: #f7f7f7;
+            border-radius: 8px;
+            padding: 8px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            overflow: hidden;
+            
+            // Ripple effect
+            &::before {
+              content: '';
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              width: 0;
+              height: 0;
+              background: rgba(52, 152, 219, 0.3);
+              border-radius: 50%;
+              transform: translate(-50%, -50%);
+              transition: width 0.4s ease, height 0.4s ease;
+            }
+  
+            &:hover {
+              background-color: #eaeaea;
+              transform: translateY(-2px) scale(1.1);
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+              
+              &::before {
+                width: 40px;
+                height: 40px;
+              }
+            }
+            
+            &:active {
+              transform: translateY(0) scale(0.95);
+            }
+  
+            img {
+              width: 20px;
+              height: 20px;
+              pointer-events: none;
+            }
+  
+            &.messageIcon {
+              .redDot {
+                position: absolute;
+                top: -4px;
+                right: -4px;
+                width: 10px;
+                height: 10px;
+                background-color: red;
+                border-radius: 50%;
+                border: 2px solid white;
+              }
+            }
+
+            &.favorited {
+              background-color: #fece51;
+              color: white;
+
+              &:hover {
+                background-color: #e6b849;
+              }
+            }
+
+            &.comparing {
+              background-color: #3498db;
+              color: white;
+
+              &:hover {
+                background-color: #2980b9;
+              }
+            }
+
+            .compare-icon, .share-icon {
+              font-size: 16px;
+              pointer-events: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
+// 🎨 AMAZING KEYFRAME ANIMATIONS
+@keyframes cardSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes tagPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 4px 16px rgba(52, 152, 219, 0.6);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes priceGlow {
+  0% {
+    text-shadow: none;
+    transform: scale(1);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(0, 195, 137, 0.6);
+    transform: scale(1.05);
+  }
+  100% {
+    text-shadow: none;
+    transform: scale(1);
+  }
+}
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.3);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.3);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+// Enhanced favorite animation
+.icon.favorited {
+  animation: heartBeat 1.2s ease-in-out;
+  background: linear-gradient(135deg, #fece51 0%, #f39c12 100%) !important;
+  
+  &:hover {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%) !important;
+    transform: translateY(-3px) scale(1.15) !important;
+  }
+}
+
+// Comparing icon special animation
+.icon.comparing {
+  animation: pulse 2s infinite;
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%) !important;
+  
+  &:hover {
+    background: linear-gradient(135deg, #2980b9 0%, #1f5f8a 100%) !important;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(52, 152, 219, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+  }
+}
+  

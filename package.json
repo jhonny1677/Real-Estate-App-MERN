@@ -1,0 +1,65 @@
+{
+  "name": "real-estate-mern-app",
+  "version": "1.0.0",
+  "description": "Modern full-stack real estate application with React, Node.js, MongoDB, and real-time chat functionality",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "npm install && cd api && npm install && cd ../client && npm install && cd ../socket && npm install",
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:client\" \"npm run dev:socket\"",
+    "dev:api": "cd api && npm run dev",
+    "dev:client": "cd client && npm run dev", 
+    "dev:socket": "cd socket && npm start",
+    "start": "concurrently \"npm run start:api\" \"npm run start:client\" \"npm run start:socket\"",
+    "start:api": "cd api && npm start",
+    "start:client": "cd client && npm run preview",
+    "start:socket": "cd socket && npm start",
+    "build": "cd client && npm run build",
+    "build:api": "cd api && npm run build",
+    "build:client": "cd client && npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy:vercel": "vercel --prod",
+    "deploy:railway": "railway deploy"
+  },
+  "keywords": [
+    "real-estate",
+    "mern-stack",
+    "react",
+    "nodejs", 
+    "mongodb",
+    "prisma",
+    "socket.io",
+    "real-time-chat",
+    "property-management",
+    "full-stack",
+    "responsive-design",
+    "multi-language",
+    "stripe-payment",
+    "leaflet-maps",
+    "jwt-authentication"
+  ],
+  "author": {
+    "name": "Professional Developer",
+    "url": "https://github.com/jhonny1677"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhonny1677/Real-Estate-App-MERN.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jhonny1677/Real-Estate-App-MERN/issues"
+  },
+  "homepage": "https://github.com/jhonny1677/Real-Estate-App-MERN#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "workspaces": [
+    "api",
+    "client", 
+    "socket"
+  ]
+}

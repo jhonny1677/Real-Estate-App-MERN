@@ -1,0 +1,231 @@
+.language-switcher {
+  position: relative;
+  display: inline-block;
+  z-index: 9998;
+
+  &__button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--bg-color, #ffffff);
+    border: 1px solid var(--border-color, #e1e5e9);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    color: var(--text-color, #333);
+    min-width: 120px;
+    justify-content: space-between;
+
+    &:hover {
+      border-color: var(--primary-color, #3498db);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color, #3498db);
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+  }
+
+  &__flag {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  &__name {
+    font-weight: 500;
+    flex: 1;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  &__arrow {
+    font-size: 10px;
+    transition: transform 0.2s ease;
+    color: #666;
+
+    &.open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--bg-color, #ffffff);
+    border: 1px solid var(--border-color, #e1e5e9);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    z-index: 9999;
+    overflow: hidden;
+    animation: fadeInDown 0.2s ease;
+    min-width: 200px;
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+    text-align: left;
+
+    &:hover {
+      background-color: var(--hover-color, #f8f9fa);
+    }
+
+    &.active {
+      background-color: var(--primary-light, #e3f2fd);
+      color: var(--primary-color, #3498db);
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--border-light, #f0f0f0);
+    }
+  }
+
+  &__option-flag {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  &__option-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 2px;
+  }
+
+  &__option-native {
+    font-weight: 500;
+    color: var(--text-color, #333);
+    line-height: 1.2;
+  }
+
+  &__option-english {
+    font-size: 12px;
+    color: var(--text-secondary, #666);
+    line-height: 1.2;
+  }
+
+  &__checkmark {
+    color: var(--primary-color, #3498db);
+    font-weight: bold;
+    font-size: 14px;
+  }
+}
+
+// RTL Support
+.rtl .language-switcher {
+  &__name {
+    text-align: right;
+  }
+
+  &__option-info {
+    text-align: right;
+  }
+
+  &__dropdown {
+    left: auto;
+    right: 0;
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .language-switcher {
+    --bg-color: #2d3748;
+    --border-color: #4a5568;
+    --text-color: #e2e8f0;
+    --text-secondary: #a0aec0;
+    --hover-color: #4a5568;
+    --primary-light: #2b6cb0;
+    --border-light: #4a5568;
+  }
+}
+
+// Animation keyframes
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Mobile responsive
+@media (max-width: 768px) {
+  .language-switcher {
+    &__button {
+      min-width: 100px;
+      padding: 6px 10px;
+      font-size: 13px;
+    }
+
+    &__name {
+      display: none; // Hide native name on mobile
+    }
+
+    &__dropdown {
+      min-width: 200px;
+    }
+
+    &__option {
+      padding: 10px 12px;
+    }
+
+    &__option-info {
+      gap: 1px;
+    }
+
+    &__option-native {
+      font-size: 14px;
+    }
+
+    &__option-english {
+      font-size: 11px;
+    }
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  .language-switcher {
+    &__button {
+      border-width: 2px;
+    }
+
+    &__option {
+      &.active {
+        background-color: #000;
+        color: #fff;
+      }
+    }
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  .language-switcher {
+    &__arrow,
+    &__dropdown {
+      transition: none;
+    }
+
+    &__dropdown {
+      animation: none;
+    }
+  }
+}

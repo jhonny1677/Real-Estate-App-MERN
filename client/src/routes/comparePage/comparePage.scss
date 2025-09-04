@@ -1,0 +1,460 @@
+@import "../../responsive.scss";
+
+.compare-page {
+  padding: 100px 20px 40px;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    p {
+      color: #666;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 14px;
+      }
+
+      .export-btn {
+        background: #007bff;
+        color: white;
+
+        &:hover {
+          background: #0056b3;
+          transform: translateY(-2px);
+        }
+
+        &.pdf-btn {
+          background: #dc3545;
+          &:hover { background: #c82333; }
+        }
+
+        &.email-btn {
+          background: #28a745;
+          &:hover { background: #1e7e34; }
+        }
+      }
+
+      .clear-btn {
+        background: #6c757d;
+        color: white;
+
+        &:hover {
+          background: #545b62;
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+    }
+
+    .browse-btn {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:hover {
+        background: #1e7e34;
+      }
+    }
+  }
+
+  .comparison-container {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    margin-bottom: 30px;
+  }
+
+  .comparison-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-x: auto;
+
+    .comparison-row {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      min-height: 60px;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &.images-row {
+        background: #f8f9fa;
+        min-height: 300px;
+
+        @include md {
+          min-height: 250px;
+        }
+
+        @include sm {
+          min-height: 200px;
+        }
+      }
+
+      &.actions-row {
+        background: #f8f9fa;
+        min-height: 80px;
+      }
+
+      .row-label {
+        flex: 0 0 180px;
+        background: #343a40;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+        padding: 0 20px;
+        text-align: center;
+
+        @include md {
+          flex: 0 0 140px;
+          font-size: 13px;
+          padding: 0 15px;
+        }
+
+        @include sm {
+          flex: 0 0 120px;
+          font-size: 12px;
+          padding: 0 10px;
+        }
+      }
+
+      .property-cell {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        border-right: 1px solid #eee;
+        text-align: center;
+
+        &:last-child {
+          border-right: none;
+        }
+
+        .value {
+          font-size: 14px;
+          color: #333;
+
+          &.price-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #00c389;
+          }
+        }
+
+        &.image-cell {
+          padding: 20px;
+          align-items: stretch;
+        }
+      }
+    }
+  }
+
+  .property-card {
+    position: relative;
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+
+    .property-image {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+
+      @include md {
+        height: 140px;
+      }
+
+      @include sm {
+        height: 120px;
+      }
+    }
+
+    .property-info {
+      padding: 15px;
+
+      h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+
+        @include md {
+          font-size: 15px;
+        }
+
+        @include sm {
+          font-size: 14px;
+        }
+      }
+
+      .address {
+        font-size: 12px;
+        color: #666;
+        margin-bottom: 8px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .price {
+        font-size: 18px;
+        font-weight: 700;
+        color: #00c389;
+
+        @include md {
+          font-size: 16px;
+        }
+
+        @include sm {
+          font-size: 15px;
+        }
+      }
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      transition: all 0.3s;
+
+      &:hover {
+        background: #dc3545;
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .view-btn {
+      background: #007bff;
+      color: white;
+
+      &:hover {
+        background: #0056b3;
+      }
+    }
+
+    .remove-action-btn {
+      background: #dc3545;
+      color: white;
+
+      &:hover {
+        background: #c82333;
+      }
+    }
+  }
+
+  .comparison-footer {
+    text-align: center;
+    padding: 30px 20px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+
+    p {
+      color: #666;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .add-more-btn {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:hover {
+        background: #1e7e34;
+      }
+    }
+  }
+}
+
+// Dark mode styles
+body.dark {
+  .compare-page {
+    background-color: #121212;
+
+    .header h1 {
+      color: #ffffff;
+    }
+
+    .header p {
+      color: #cccccc;
+    }
+
+    .empty-state,
+    .comparison-container,
+    .comparison-footer {
+      background: #1e1e1e;
+      color: #ffffff;
+    }
+
+    .comparison-table {
+      .comparison-row {
+        border-color: #333;
+
+        &.images-row,
+        &.actions-row {
+          background: #2a2a2a;
+        }
+
+        .row-label {
+          background: #495057;
+        }
+
+        .property-cell {
+          border-color: #333;
+
+          .value {
+            color: #ffffff;
+          }
+        }
+      }
+    }
+
+    .property-card {
+      background: #2a2a2a;
+
+      .property-info h3 {
+        color: #ffffff;
+      }
+
+      .property-info .address {
+        color: #cccccc;
+      }
+    }
+  }
+}
+
+// Print styles for PDF export
+@media print {
+  .compare-page {
+    padding: 0;
+    background: white !important;
+
+    .header .actions,
+    .comparison-footer {
+      display: none;
+    }
+
+    .property-card .remove-btn,
+    .action-buttons {
+      display: none;
+    }
+
+    .comparison-table {
+      .comparison-row {
+        break-inside: avoid;
+        
+        &.actions-row {
+          display: none;
+        }
+      }
+    }
+  }
+}

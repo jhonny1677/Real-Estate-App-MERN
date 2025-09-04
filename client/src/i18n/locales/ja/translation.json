@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "about": "紹介",
+    "contact": "お問い合わせ", 
+    "agents": "エージェント",
+    "login": "ログイン",
+    "register": "登録",
+    "profile": "プロフィール",
+    "logout": "ログアウト",
+    "admin": "管理者ダッシュボード"
+  },
+  "common": {
+    "search": "検索",
+    "filter": "フィルター",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "edit": "編集",
+    "view": "表示",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "close": "閉じる",
+    "next": "次へ",
+    "previous": "前へ",
+    "submit": "送信",
+    "reset": "リセット"
+  },
+  "property": {
+    "properties": "不動産",
+    "forSale": "売り物件",
+    "forRent": "賃貿物件",
+    "apartment": "アパート",
+    "house": "一戸建て",
+    "condo": "マンション",
+    "villa": "ビラ",
+    "land": "土地",
+    "commercial": "商業用",
+    "price": "価格",
+    "bedrooms": "寝室",
+    "bathrooms": "バスルーム"
+  }
+}

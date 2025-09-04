@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Real Estate App Features</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .test-section h2 { color: #333; margin-top: 0; }
+        .success { color: #4CAF50; }
+        .error { color: #f44336; }
+        .info { color: #2196F3; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        input { padding: 8px; margin: 5px; width: 200px; }
+        .result { margin: 10px 0; padding: 10px; background: #f5f5f5; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Real Estate App Features Test</h1>
+    
+    <div class="test-section">
+        <h2>1. 📧 Email Verification Test</h2>
+        <p>Test the registration with email verification:</p>
+        <input type="text" id="testUsername" placeholder="Username" value="testuser">
+        <input type="email" id="testEmail" placeholder="Email" value="test@example.com">
+        <input type="password" id="testPassword" placeholder="Password" value="password123">
+        <button onclick="testRegistration()">Test Registration</button>
+        <div id="registrationResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. 🔑 Password Reset Test</h2>
+        <p>Test password reset functionality:</p>
+        <input type="email" id="resetEmail" placeholder="Email" value="test@example.com">
+        <button onclick="testPasswordReset()">Test Password Reset</button>
+        <div id="resetResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. 🖼️ Image Optimization Test</h2>
+        <p>Test lazy image loading (open browser dev tools to see network requests):</p>
+        <div style="height: 200px; overflow-y: scroll; border: 1px solid #ccc;">
+            <div style="height: 100px;"></div>
+            <img src="https://images.unsplash.com/photo-1599427303058-f04cbcf4756f?auto=format&fit=crop&w=400&q=80" 
+                 alt="Test Property" 
+                 loading="lazy" 
+                 style="width: 100%; height: 200px; object-fit: cover;">
+            <div style="height: 100px;"></div>
+        </div>
+        <p class="info">↑ Scroll to see lazy loading in action</p>
+    </div>
+
+    <div class="test-section">
+        <h2>4. 🔍 Advanced Search Test</h2>
+        <p>Test advanced search filters:</p>
+        <button onclick="testAdvancedSearch()">Test Search API</button>
+        <div id="searchResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📝 Manual Testing Steps</h2>
+        <ol>
+            <li><strong>Start the servers:</strong>
+                <pre>
+# Terminal 1 - API Server
+cd api && npm start
+
+# Terminal 2 - Client
+cd client && npm run dev
+
+# Terminal 3 - Socket Server  
+cd socket && node app.js
+                </pre>
+            </li>
+            <li><strong>Update .env file</strong> with your email credentials</li>
+            <li><strong>Test Registration:</strong> Go to /register and create an account</li>
+            <li><strong>Check Email:</strong> Look for verification email in your inbox</li>
+            <li><strong>Test Login:</strong> Try logging in before/after verification</li>
+            <li><strong>Test Password Reset:</strong> Go to /forgot-password</li>
+            <li><strong>Test Image Loading:</strong> Go to /list and check network tab</li>
+            <li><strong>Test Advanced Filters:</strong> Use "Show Advanced Filters" on /list page</li>
+        </ol>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8800/api';
+
+        async function testRegistration() {
+            const result = document.getElementById('registrationResult');
+            const username = document.getElementById('testUsername').value;
+            const email = document.getElementById('testEmail').value;
+            const password = document.getElementById('testPassword').value;
+
+            try {
+                result.innerHTML = '<span class="info">Testing registration...</span>';
+                
+                const response = await fetch(`${API_BASE}/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    result.innerHTML = `<span class="success">✅ Registration successful!</span><br>
+                                       <small>${data.message}</small><br>
+                                       <small>Email sent: ${data.emailSent ? 'Yes' : 'No'}</small>`;
+                } else {
+                    result.innerHTML = `<span class="error">❌ Registration failed:</span><br><small>${data.message}</small>`;
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Error: API server not running?</span><br><small>${error.message}</small>`;
+            }
+        }
+
+        async function testPasswordReset() {
+            const result = document.getElementById('resetResult');
+            const email = document.getElementById('resetEmail').value;
+
+            try {
+                result.innerHTML = '<span class="info">Testing password reset...</span>';
+                
+                const response = await fetch(`${API_BASE}/auth/request-password-reset`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    result.innerHTML = `<span class="success">✅ Password reset request sent!</span><br>
+                                       <small>${data.message}</small>`;
+                } else {
+                    result.innerHTML = `<span class="error">❌ Reset failed:</span><br><small>${data.message}</small>`;
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Error: API server not running?</span><br><small>${error.message}</small>`;
+            }
+        }
+
+        async function testAdvancedSearch() {
+            const result = document.getElementById('searchResult');
+
+            try {
+                result.innerHTML = '<span class="info">Testing advanced search...</span>';
+                
+                const searchParams = new URLSearchParams({
+                    city: 'New York',
+                    type: 'rent',
+                    bedroom: '2',
+                    bathroom: '1',
+                    minPrice: '1000',
+                    maxPrice: '3000',
+                    utilities: 'included',
+                    pet: 'allowed'
+                });
+
+                const response = await fetch(`${API_BASE}/posts?${searchParams}`);
+                const data = await response.json();
+                
+                if (response.ok) {
+                    result.innerHTML = `<span class="success">✅ Search API working!</span><br>
+                                       <small>Found ${data.length} properties with advanced filters</small><br>
+                                       <small>Query: ${searchParams.toString()}</small>`;
+                } else {
+                    result.innerHTML = `<span class="error">❌ Search failed:</span><br><small>${data.message}</small>`;
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Error: API server not running?</span><br><small>${error.message}</small>`;
+            }
+        }
+
+        // Auto-test API connection on page load
+        window.onload = async function() {
+            try {
+                const response = await fetch(`${API_BASE}/test`);
+                if (response.ok) {
+                    console.log('✅ API server is running');
+                } else {
+                    console.log('⚠️ API server responded but may have issues');
+                }
+            } catch (error) {
+                console.log('❌ API server is not running - start it with: cd api && npm start');
+            }
+        };
+    </script>
+</body>
+</html>

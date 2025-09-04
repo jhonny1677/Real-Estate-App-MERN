@@ -1,0 +1,306 @@
+.filter {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 10px;
+  
+    h1 {
+      font-weight: 400;
+      font-size: 24px;
+      color: #000; // light mode default
+    }
+  
+    .top {
+      .item {
+        width: 100%;
+  
+        input {
+          width: 100%;
+        }
+      }
+    }
+  
+    .bottom {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: flex-end;
+  
+      .item {
+        flex: 1;
+        min-width: 150px;
+  
+        label {
+          font-size: 12px;
+          font-weight: 500;
+          color: #000; // light mode default
+          margin-bottom: 5px;
+        }
+  
+        input,
+        select {
+          width: 100%;
+          padding: 10px 12px;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          font-size: 14px;
+          background-color: #fff;
+          color: #333;
+          outline: none;
+          transition: border 0.2s ease;
+        }
+  
+        input:focus,
+        select:focus {
+          border-color: #007bff;
+        }
+      }
+  
+      button {
+        padding: 10px 14px;
+        border: none;
+        cursor: pointer;
+        background-color: #ffc107;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          background-color: #e0a800;
+        }
+  
+        img {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+  
+  // 🌙 DARK MODE SUPPORT — via body.dark
+  body.dark {
+    .filter {
+      h1 {
+        color: #f1f1f1;
+      }
+  
+      .bottom {
+        .item {
+          label {
+            color: #ccc;
+          }
+  
+          input,
+          select {
+            background-color: #2b2b2b;
+            color: #f1f1f1;
+            border-color: #444;
+          }
+  
+          input:focus,
+          select:focus {
+            border-color: #90caf9;
+          }
+        }
+  
+        button {
+          background-color: #fece51;
+  
+          &:hover {
+            background-color: #e6b52d;
+          }
+        }
+      }
+    }
+  }
+
+  // Advanced Filters Styling
+  .filter {
+    .filter-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      
+      .toggle-advanced {
+        padding: 8px 16px;
+        border: 1px solid #007bff;
+        background-color: transparent;
+        color: #007bff;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        
+        &:hover {
+          background-color: #007bff;
+          color: white;
+        }
+      }
+      
+      .clear-filters {
+        padding: 8px 16px;
+        border: 1px solid #dc3545;
+        background-color: transparent;
+        color: #dc3545;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 14px;
+        
+        &:hover {
+          background-color: #dc3545;
+          color: white;
+        }
+      }
+      
+      .search-button {
+        padding: 10px 16px;
+        border: none;
+        cursor: pointer;
+        background-color: #ffc107;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background-color 0.3s ease;
+        font-size: 14px;
+        font-weight: 500;
+
+        &:hover {
+          background-color: #e0a800;
+        }
+
+        img {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+    
+    .advanced-filters {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+      margin-top: 20px;
+      
+      h3 {
+        margin: 0 0 20px 0;
+        font-size: 18px;
+        color: #333;
+        font-weight: 600;
+      }
+      
+      h4 {
+        margin: 20px 0 15px 0;
+        font-size: 16px;
+        color: #555;
+        font-weight: 500;
+      }
+      
+      .advanced-row {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+        
+        .item {
+          flex: 1;
+          min-width: 200px;
+          
+          label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 5px;
+            display: block;
+          }
+
+          input,
+          select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: #fff;
+            color: #333;
+            outline: none;
+            transition: border 0.2s ease;
+            
+            &:focus {
+              border-color: #007bff;
+            }
+          }
+        }
+      }
+      
+      .proximity-filters {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #e9ecef;
+      }
+    }
+  }
+
+  // Dark mode support for advanced filters
+  body.dark {
+    .filter {
+      .filter-actions {
+        .toggle-advanced {
+          border-color: #90caf9;
+          color: #90caf9;
+          
+          &:hover {
+            background-color: #90caf9;
+            color: #1a1a1a;
+          }
+        }
+        
+        .clear-filters {
+          border-color: #f48fb1;
+          color: #f48fb1;
+          
+          &:hover {
+            background-color: #f48fb1;
+            color: #1a1a1a;
+          }
+        }
+      }
+      
+      .advanced-filters {
+        background-color: #2b2b2b;
+        border-color: #444;
+        
+        h3, h4 {
+          color: #f1f1f1;
+        }
+        
+        .advanced-row .item {
+          label {
+            color: #ccc;
+          }
+          
+          input, select {
+            background-color: #3c3c3c;
+            color: #f1f1f1;
+            border-color: #555;
+            
+            &:focus {
+              border-color: #90caf9;
+            }
+          }
+        }
+        
+        .proximity-filters {
+          border-color: #555;
+        }
+      }
+    }
+  }
+  

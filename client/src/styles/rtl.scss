@@ -1,0 +1,380 @@
+/* RTL (Right-to-Left) Language Support */
+
+/* Base RTL styles */
+[dir="rtl"] {
+  text-align: right;
+}
+
+/* Layout adjustments for RTL */
+.rtl {
+  /* Navbar RTL adjustments */
+  .navbar {
+    .nav-links {
+      direction: rtl;
+      
+      .nav-link {
+        text-align: right;
+      }
+    }
+    
+    .logo {
+      margin-left: auto;
+      margin-right: 0;
+    }
+    
+    .user-info {
+      flex-direction: row-reverse;
+      
+      .user-avatar {
+        margin-left: 0;
+        margin-right: 8px;
+      }
+    }
+  }
+
+  /* Forms RTL adjustments */
+  .form-group {
+    text-align: right;
+    
+    input, textarea, select {
+      text-align: right;
+      padding-right: 12px;
+      padding-left: 40px; // For icons
+    }
+    
+    label {
+      text-align: right;
+    }
+  }
+
+  /* Property cards RTL adjustments */
+  .property-card {
+    text-align: right;
+    
+    .property-info {
+      direction: rtl;
+    }
+    
+    .property-features {
+      direction: rtl;
+      
+      .feature-item {
+        flex-direction: row-reverse;
+        
+        .feature-icon {
+          margin-left: 8px;
+          margin-right: 0;
+        }
+      }
+    }
+    
+    .property-price {
+      text-align: right;
+    }
+  }
+
+  /* Search bar RTL adjustments */
+  .search-bar {
+    direction: rtl;
+    
+    .search-input {
+      text-align: right;
+      padding-right: 16px;
+      padding-left: 44px;
+    }
+    
+    .search-icon {
+      left: auto;
+      right: 12px;
+    }
+  }
+
+  /* Filter RTL adjustments */
+  .filter-container {
+    direction: rtl;
+    
+    .filter-group {
+      text-align: right;
+      
+      select {
+        text-align: right;
+        padding-right: 12px;
+        padding-left: 32px;
+      }
+    }
+  }
+
+  /* Property details RTL adjustments */
+  .property-details {
+    direction: rtl;
+    
+    .property-header {
+      text-align: right;
+    }
+    
+    .property-features-grid {
+      direction: rtl;
+      
+      .feature-item {
+        text-align: right;
+        
+        .feature-icon {
+          margin-left: 8px;
+          margin-right: 0;
+        }
+      }
+    }
+    
+    .amenities-list {
+      direction: rtl;
+      
+      .amenity-item {
+        text-align: right;
+        flex-direction: row-reverse;
+        
+        .amenity-icon {
+          margin-left: 8px;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  /* Admin dashboard RTL adjustments */
+  .admin-dashboard {
+    direction: rtl;
+    
+    .dashboard-nav {
+      direction: rtl;
+      
+      button {
+        text-align: right;
+      }
+    }
+    
+    .metrics-grid {
+      direction: rtl;
+    }
+    
+    .metric-card {
+      text-align: right;
+      
+      .metric-icon {
+        margin-left: 12px;
+        margin-right: 0;
+      }
+    }
+    
+    .analytics {
+      .charts-grid {
+        direction: rtl;
+      }
+      
+      .chart-container {
+        text-align: right;
+        
+        h3 {
+          text-align: right;
+        }
+      }
+    }
+  }
+
+  /* Modal RTL adjustments */
+  .modal {
+    direction: rtl;
+    
+    .modal-header {
+      text-align: right;
+      flex-direction: row-reverse;
+      
+      .close-button {
+        margin-left: 0;
+        margin-right: auto;
+      }
+    }
+    
+    .modal-body {
+      text-align: right;
+    }
+    
+    .modal-footer {
+      flex-direction: row-reverse;
+      
+      .button {
+        margin-left: 0;
+        margin-right: 8px;
+        
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  /* Sidebar RTL adjustments */
+  .sidebar {
+    direction: rtl;
+    
+    .sidebar-item {
+      text-align: right;
+      flex-direction: row-reverse;
+      
+      .sidebar-icon {
+        margin-left: 12px;
+        margin-right: 0;
+      }
+    }
+  }
+
+  /* Dropdown RTL adjustments */
+  .dropdown {
+    direction: rtl;
+    
+    .dropdown-toggle {
+      flex-direction: row-reverse;
+      
+      .dropdown-arrow {
+        margin-left: 0;
+        margin-right: 8px;
+      }
+    }
+    
+    .dropdown-menu {
+      text-align: right;
+      right: 0;
+      left: auto;
+      
+      .dropdown-item {
+        text-align: right;
+        flex-direction: row-reverse;
+        
+        .item-icon {
+          margin-left: 8px;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  /* Pagination RTL adjustments */
+  .pagination {
+    direction: rtl;
+    flex-direction: row-reverse;
+    
+    .page-item {
+      .page-link {
+        text-align: center;
+      }
+    }
+  }
+
+  /* Breadcrumb RTL adjustments */
+  .breadcrumb {
+    direction: rtl;
+    flex-direction: row-reverse;
+    
+    .breadcrumb-item {
+      &::after {
+        content: "\\";
+        margin-left: 0;
+        margin-right: 8px;
+      }
+    }
+  }
+
+  /* Tab RTL adjustments */
+  .tabs {
+    direction: rtl;
+    
+    .tab-list {
+      flex-direction: row-reverse;
+    }
+    
+    .tab-content {
+      text-align: right;
+    }
+  }
+
+  /* List RTL adjustments */
+  .property-list {
+    direction: rtl;
+  }
+
+  /* Icons that need flipping in RTL */
+  .rtl-flip {
+    transform: scaleX(-1);
+  }
+
+  /* Language-specific font adjustments */
+  &[lang="ar"] {
+    font-family: 'Noto Sans Arabic', 'Cairo', 'Amiri', Arial, sans-serif;
+    line-height: 1.8;
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 600;
+      line-height: 1.6;
+    }
+  }
+
+  &[lang="he"] {
+    font-family: 'Noto Sans Hebrew', 'David Libre', 'Frank Ruehl CLM', Arial, sans-serif;
+    line-height: 1.7;
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 600;
+      line-height: 1.5;
+    }
+  }
+}
+
+/* Specific adjustments for Arabic numerals */
+[lang="ar"] {
+  .price, .number {
+    direction: ltr;
+    text-align: right;
+    unicode-bidi: embed;
+  }
+}
+
+/* Specific adjustments for Hebrew numerals */
+[lang="he"] {
+  .price, .number {
+    direction: ltr;
+    text-align: right;
+    unicode-bidi: embed;
+  }
+}
+
+/* Mixed content (LTR in RTL context) */
+.ltr-content {
+  direction: ltr;
+  text-align: left;
+  display: inline-block;
+}
+
+/* Responsive RTL adjustments */
+@media (max-width: 768px) {
+  .rtl {
+    .navbar {
+      .nav-toggle {
+        left: 16px;
+        right: auto;
+      }
+      
+      .nav-menu {
+        text-align: right;
+      }
+    }
+    
+    .property-card {
+      .property-image {
+        order: 1;
+      }
+      
+      .property-info {
+        order: 2;
+      }
+    }
+  }
+}

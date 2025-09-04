@@ -1,0 +1,258 @@
+.newPostPage {
+  height: 100%;
+  display: flex;
+
+  .formContainer {
+    flex: 3;
+    overflow: scroll;
+
+    .wrapper {
+      margin: 30px 50px 100px 0px;
+
+      form {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px;
+
+        .item {
+          width: 30%;
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+
+          label {
+          }
+
+          input {
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid gray;
+          }
+
+          select {
+            padding: 19px;
+          }
+
+          &.description {
+            width: 100%;
+            height: 320px;
+
+            .quill > .ql-container > .ql-editor{
+              height: 200px;
+              font-size: 16px;
+            }
+          }
+        }
+        .checkbox-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 5px;
+          
+          .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            
+            &:hover {
+              background-color: #e9ecef;
+              border-color: #dee2e6;
+            }
+            
+            input[type="checkbox"] {
+              margin: 0;
+              width: auto;
+              height: auto;
+              padding: 0;
+              border: none;
+            }
+            
+            input[type="checkbox"]:checked + span,
+            &:has(input[type="checkbox"]:checked) {
+              background-color: #007bff;
+              color: white;
+              border-color: #007bff;
+            }
+          }
+        }
+        
+        .sendButton {
+          width: 30%;
+          border-radius: 5px;
+          border: none;
+          background-color: teal;
+          color: white;
+          font-weight: bold;
+          cursor: pointer;
+          padding: 15px;
+          font-size: 16px;
+          transition: background-color 0.3s ease;
+          
+          &:hover {
+            background-color: #008080;
+          }
+        }
+      }
+    }
+  }
+
+  .sideContainer {
+    flex: 2;
+    background-color: #fcf5f3;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 50%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+  }
+}
+
+// Dark mode styles
+body.dark .newPostPage {
+  background-color: #1a1a1a;
+  color: #e1e8ed;
+  
+  .formContainer {
+    .wrapper {
+      h1 {
+        color: #e1e8ed;
+      }
+      
+      form {
+        .item {
+          label {
+            color: #e1e8ed;
+            font-weight: 500;
+          }
+          
+          input, select, textarea {
+            background-color: #2d2d2d;
+            color: #e1e8ed;
+            border-color: #404040;
+            
+            &:focus {
+              border-color: #007bff;
+              box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+              outline: none;
+            }
+            
+            &::placeholder {
+              color: #888;
+            }
+          }
+          
+          select {
+            option {
+              background-color: #2d2d2d;
+              color: #e1e8ed;
+            }
+          }
+        }
+        
+        .checkbox-group {
+          .checkbox-item {
+            background-color: #2d2d2d;
+            border-color: #404040;
+            color: #e1e8ed;
+            
+            &:hover {
+              background-color: #3d3d3d;
+              border-color: #505050;
+            }
+            
+            input[type="checkbox"]:checked + span,
+            &:has(input[type="checkbox"]:checked) {
+              background-color: #007bff;
+              color: white;
+              border-color: #007bff;
+            }
+          }
+        }
+        
+        .sendButton {
+          background-color: #007bff;
+          
+          &:hover {
+            background-color: #0056b3;
+          }
+        }
+        
+        // ReactQuill dark mode styling
+        .item.description {
+          .quill {
+            .ql-toolbar {
+              background-color: #3d3d3d;
+              border-color: #404040;
+              
+              .ql-formats {
+                button {
+                  color: #e1e8ed;
+                  
+                  &:hover {
+                    color: #007bff;
+                  }
+                }
+                
+                .ql-picker {
+                  color: #e1e8ed;
+                }
+                
+                .ql-picker-options {
+                  background-color: #2d2d2d;
+                  border-color: #404040;
+                  
+                  .ql-picker-item {
+                    color: #e1e8ed;
+                    
+                    &:hover {
+                      background-color: #3d3d3d;
+                    }
+                  }
+                }
+              }
+            }
+            
+            .ql-container {
+              border-color: #404040;
+              
+              .ql-editor {
+                background-color: #2d2d2d;
+                color: #e1e8ed;
+                
+                &::before {
+                  color: #888;
+                }
+                
+                p, span, div {
+                  color: #e1e8ed;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .sideContainer {
+    background-color: #2d2d2d;
+    
+    img {
+      border: 1px solid #404040;
+    }
+  }
+}

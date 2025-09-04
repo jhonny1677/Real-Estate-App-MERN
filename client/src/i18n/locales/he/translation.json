@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "home": "בית",
+    "about": "אודות",
+    "contact": "צור קשר", 
+    "agents": "סוכנים",
+    "login": "התחברות",
+    "register": "הרשמה",
+    "profile": "פרופיל",
+    "logout": "התנתקות",
+    "admin": "לוח בקרה מנהל"
+  },
+  "common": {
+    "search": "חיפוש",
+    "filter": "סינון",
+    "save": "שמירה",
+    "cancel": "ביטול",
+    "delete": "מחיקה",
+    "edit": "עריכה",
+    "view": "צפייה",
+    "loading": "טוען...",
+    "error": "שגיאה",
+    "success": "הצלחה",
+    "close": "סגירה",
+    "next": "הבא",
+    "previous": "הקודם",
+    "submit": "שליחה",
+    "reset": "איפוס"
+  },
+  "property": {
+    "properties": "נכסים",
+    "forSale": "למכירה",
+    "forRent": "להשכרה",
+    "apartment": "דירה",
+    "house": "בית",
+    "condo": "דירת גן",
+    "villa": "וילה",
+    "land": "קרקע",
+    "commercial": "מסחרי",
+    "price": "מחיר",
+    "bedrooms": "חדרי שינה",
+    "bathrooms": "חדרי רחצה"
+  }
+}

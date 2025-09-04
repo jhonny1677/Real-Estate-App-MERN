@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "about": "Über uns",
+    "contact": "Kontakt", 
+    "agents": "Makler",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "profile": "Profil",
+    "logout": "Abmelden",
+    "admin": "Admin Dashboard"
+  },
+  "common": {
+    "search": "Suchen",
+    "filter": "Filter",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "view": "Ansehen",
+    "loading": "Laden...",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "close": "Schließen",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "submit": "Senden",
+    "reset": "Zurücksetzen"
+  },
+  "property": {
+    "properties": "Immobilien",
+    "forSale": "Zu verkaufen",
+    "forRent": "Zu vermieten",
+    "apartment": "Wohnung",
+    "house": "Haus",
+    "condo": "Eigentumswohnung",
+    "villa": "Villa",
+    "land": "Grundstück",
+    "commercial": "Gewerbe",
+    "price": "Preis",
+    "bedrooms": "Schlafzimmer",
+    "bathrooms": "Badezimmer"
+  }
+}

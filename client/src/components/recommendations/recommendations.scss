@@ -1,0 +1,187 @@
+@import "../../responsive.scss";
+
+.recommendations {
+  padding: 40px 0;
+  background: #f8f9fa;
+  margin-top: 40px;
+  border-radius: 16px;
+
+  .recommendation-section {
+    margin-bottom: 50px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 8px;
+
+      @include md {
+        font-size: 1.8rem;
+      }
+
+      @include sm {
+        font-size: 1.6rem;
+      }
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: #666;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+
+      @include sm {
+        font-size: 1rem;
+        margin-bottom: 20px;
+      }
+    }
+
+    .properties-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 30px;
+      padding: 0 20px;
+      width: 100%;
+      box-sizing: border-box;
+      max-width: 1400px;
+      margin: 0 auto;
+
+      @include lg {
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 25px;
+      }
+
+      @include md {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 20px;
+        padding: 0 15px;
+      }
+
+      @include sm {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 0 10px;
+      }
+    }
+
+    .recommendation-item {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      width: 100%;
+      min-width: 0; // Allow flex items to shrink
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      }
+
+      // Ensure card content has proper spacing
+      .card {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        gap: 15px;
+        min-height: 200px;
+      }
+
+      .similarity-info,
+      .recommendation-info {
+        padding: 16px 20px;
+        background: #f8f9fa;
+        border-top: 1px solid #eee;
+
+        .similarity-score,
+        .recommendation-score {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+
+          .score-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            min-width: 60px;
+          }
+
+          .score-bar {
+            flex: 1;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+
+            .score-fill {
+              height: 100%;
+              background: linear-gradient(90deg, #28a745, #20c997);
+              border-radius: 4px;
+              transition: width 0.8s ease;
+
+              &.recommended {
+                background: linear-gradient(90deg, #007bff, #17a2b8);
+              }
+            }
+          }
+
+          .score-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: #333;
+            min-width: 35px;
+            text-align: right;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Dark mode styles
+body.dark {
+  .recommendations {
+    background: #2a2a2a;
+
+    .recommendation-section {
+      h2 {
+        color: #ffffff;
+      }
+
+      .section-subtitle {
+        color: #cccccc;
+      }
+
+      .recommendation-item {
+        background: #1e1e1e;
+
+        .similarity-info,
+        .recommendation-info {
+          background: #2a2a2a;
+          border-color: #444;
+
+          .similarity-score,
+          .recommendation-score {
+            .score-label,
+            .score-text {
+              color: #ffffff;
+            }
+
+            .score-bar {
+              background: #444;
+            }
+          }
+        }
+      }
+    }
+  }
+}

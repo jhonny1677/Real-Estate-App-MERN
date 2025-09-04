@@ -1,0 +1,312 @@
+@import "../../responsive.scss";
+
+.price-alert-container {
+  margin: 16px 0;
+
+  .create-alert-btn {
+    background: linear-gradient(135deg, #ff6b6b, #feca57);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(255, 107, 107, 0.4);
+    }
+  }
+
+  &.active {
+    .alert-status {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+      padding: 16px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+
+      .alert-icon {
+        font-size: 20px;
+        animation: pulse 2s infinite;
+      }
+
+      .alert-info {
+        flex: 1;
+
+        .alert-title {
+          font-weight: 600;
+          font-size: 16px;
+          margin-bottom: 4px;
+        }
+
+        .alert-details {
+          font-size: 14px;
+          opacity: 0.9;
+        }
+      }
+
+      .remove-alert-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        transition: all 0.3s;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.3);
+          transform: scale(1.1);
+        }
+      }
+    }
+  }
+
+  .alert-form {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+
+    .form-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+
+      h4 {
+        margin: 0;
+        color: #333;
+        font-size: 18px;
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        color: #666;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.3s;
+
+        &:hover {
+          background: #f0f0f0;
+          color: #333;
+        }
+      }
+    }
+
+    .current-price {
+      background: #f8f9fa;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      text-align: center;
+      font-size: 16px;
+      color: #495057;
+    }
+
+    .price-input-group {
+      margin-bottom: 16px;
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #333;
+      }
+
+      .price-input {
+        display: flex;
+        align-items: center;
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+        overflow: hidden;
+        background: white;
+        transition: border-color 0.3s;
+
+        &:focus-within {
+          border-color: #007bff;
+        }
+
+        .currency {
+          background: #e9ecef;
+          padding: 12px;
+          font-weight: 600;
+          color: #495057;
+        }
+
+        input {
+          flex: 1;
+          border: none;
+          padding: 12px;
+          font-size: 16px;
+          outline: none;
+          font-weight: 600;
+
+          &::-webkit-outer-spin-button,
+          &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+
+          &[type=number] {
+            -moz-appearance: textfield;
+          }
+        }
+      }
+    }
+
+    .savings-info {
+      background: linear-gradient(135deg, #d4edda, #c3e6cb);
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      text-align: center;
+
+      .savings-amount {
+        font-size: 16px;
+        color: #155724;
+        margin-bottom: 4px;
+      }
+
+      .discount-percentage {
+        font-size: 14px;
+        color: #155724;
+        opacity: 0.8;
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+
+      button {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .cancel-btn {
+        background: #6c757d;
+        color: white;
+
+        &:hover {
+          background: #545b62;
+        }
+      }
+
+      .create-btn {
+        background: #007bff;
+        color: white;
+
+        &:hover:not(:disabled) {
+          background: #0056b3;
+        }
+
+        &:disabled {
+          background: #6c757d;
+          cursor: not-allowed;
+          opacity: 0.6;
+        }
+      }
+    }
+
+    .alert-info-text {
+      text-align: center;
+      color: #6c757d;
+      
+      small {
+        font-size: 12px;
+        line-height: 1.4;
+      }
+    }
+  }
+}
+
+// Dark mode styles
+body.dark {
+  .price-alert-container {
+    .alert-form {
+      background: #2b2b2b;
+      border-color: #444;
+
+      .form-header {
+        h4 {
+          color: #ffffff;
+        }
+
+        .close-btn {
+          color: #ccc;
+
+          &:hover {
+            background: #444;
+            color: #fff;
+          }
+        }
+      }
+
+      .current-price {
+        background: #333;
+        color: #ccc;
+      }
+
+      .price-input-group {
+        label {
+          color: #ffffff;
+        }
+
+        .price-input {
+          border-color: #555;
+          background: #333;
+
+          &:focus-within {
+            border-color: #007bff;
+          }
+
+          .currency {
+            background: #444;
+            color: #ccc;
+          }
+
+          input {
+            background: #333;
+            color: #fff;
+          }
+        }
+      }
+
+      .alert-info-text {
+        color: #ccc;
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}

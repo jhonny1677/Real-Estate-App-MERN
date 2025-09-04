@@ -1,0 +1,175 @@
+/* Reset and Box sizing */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Set global font and base styles */
+  html, body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #ffffff;
+    color: #222222;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Fix for content being hidden behind fixed navbar */
+  body {
+    padding-top: 0; /* Remove default body padding since layout handles it */
+  }
+
+  /* Ensure main content areas have proper spacing */
+  .layout .content > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Utility classes for navbar spacing */
+  .navbar-offset {
+    padding-top: 60px;
+    
+    @media (max-width: 1024px) {
+      padding-top: 55px;
+    }
+    
+    @media (max-width: 768px) {
+      padding-top: 50px;
+    }
+  }
+  
+  .content-safe-area {
+    min-height: calc(100vh - 60px);
+    
+    @media (max-width: 1024px) {
+      min-height: calc(100vh - 55px);
+    }
+    
+    @media (max-width: 768px) {
+      min-height: calc(100vh - 50px);
+    }
+  }
+  
+  /* Global link styles */
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  /* Image layout protection */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  /* Button base style */
+  button {
+    font-family: inherit;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  /* Smooth hover for inputs and forms */
+  input, select, textarea {
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+  
+    &:focus {
+      outline: none;
+      border-color: #007BFF;
+    }
+  }
+  
+  /* =====================
+     🌙 DARK MODE OVERRIDES
+     ===================== */
+  body.dark {
+    background-color: #121212;
+    color: #f1f1f1;
+  
+    a {
+      color: #90caf9;
+    }
+  
+    input,
+    textarea,
+    select {
+      background: #2b2b2b;
+      color: #fff;
+      border-color: #444;
+  
+      &::placeholder {
+        color: #aaa;
+      }
+    }
+  
+    .navbar {
+      background-color: #1e1e1e;
+    }
+  
+    .chatBox {
+      background-color: #1e1e1e;
+      color: #eee;
+    }
+  
+    .message {
+      background-color: #333;
+    }
+  
+    .message.own {
+      background-color: #005f9e;
+    }
+  
+    button {
+      background-color: #2196f3;
+      color: white;
+  
+      &:hover {
+        background-color: #1976d2;
+      }
+    }
+  }
+  
+  /* Optional layout helpers */
+  section, .wrapper, .container {
+    padding: 2rem 1rem;
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    overflow-y: hidden; // 👈 disable vertical scroll unless needed
+    height: 100%;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    scrollbar-width: none; // Firefox
+  }
+  
+  body::-webkit-scrollbar {
+    display: none; // Chrome, Safari
+  }
+  
+  body.dark {
+    background-color: #121212;
+    color: white;
+  }
+  
+  body.light {
+    background-color: #ffffff;
+    color: #000000;
+  }
+  
