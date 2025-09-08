@@ -35,16 +35,28 @@ model Post {
   // Enhanced property data
   neighborhood Json?       // Stores neighborhood information
   amenities    String[]    @default([]) // Building amenities
-  features     String[]    @default([]) // Property features  
+  features     String[]    @default([]) // Property features
   floorPlan    String?     // URL to floor plan image
   virtualTour  String?     // URL to virtual tour
   yearBuilt    Int?        // Year the property was built
   sqft         Int?        // Square footage
+  status       ListingStatus @default(available)
+
+  // Geospatial — GeoJSON Point for MongoDB 2dsphere index
+  // { type: "Point", coordinates: [lng, lat] }
+  // Index created at runtime by listing-service via $runCommandRaw
+  location     Json?
 }
 
 enum Type {
   buy
   rent
+}
+
+enum ListingStatus {
+  available
+  under_offer
+  sold
 }
 
 enum Property {
@@ -57,6 +69,7 @@ enum Property {
 
 enum UserRole {
   user
+  agent
   admin
 }
 
@@ -89,13 +102,16 @@ model User {
   id                    String      @id @default(auto()) @map("_id") @db.ObjectId
   email                 String      @unique
   username              String      @unique
-  password              String
+  password              String?
   avatar                String?
   role                  UserRole    @default(user)
+  isBanned              Boolean     @default(false)
   isEmailVerified       Boolean     @default(false)
   emailVerificationToken String?
   passwordResetToken    String?
   passwordResetExpiry   DateTime?
+  oauthProvider         String?
+  oauthId               String?
   createdAt             DateTime    @default(now())
   posts                 Post[]
   savedPosts            SavedPost[]
@@ -114,6 +130,32 @@ model Chat {
   lastMessage String?
 }
 
+model Booking {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String   @db.ObjectId
+  postId             String   @db.ObjectId
+  visitType          String
+  date               String
+  time               String
+  fee                Int
+  contactName        String
+  contactEmail       String
+  contactPhone       String
+  notes              String?
+  paymentId          String?
+  paymentMethod      String   @default("demo")
+  confirmationNumber String
+  status             String   @default("confirmed")
+  createdAt          DateTime @default(now())
+}
+
+model PriceHistory {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  postId    String   @db.ObjectId
+  price     Int
+  date      DateTime @default(now())
+}
+
 model Message {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   text      String?
@@ -125,4 +167,20 @@ model Message {
   fileType  String?
   fileSize  Int?
   createdAt DateTime @default(now())
+}
+
+// CQRS / Event Sourcing — immutable append-only log of every domain event.
+// Written by each service on every state change.
+// Query via GET /api/admin/event-log for full audit trail and replay.
+model EventLog {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  type      String   // e.g. "listing.created", "listing.priceChanged", "booking.created"
+  entityId  String   // the ID of the affected entity (postId, bookingId, etc.)
+  data      String   // JSON-serialised event payload (immutable snapshot)
+  userId    String?  // actor who triggered the event (null for system events)
+  createdAt DateTime @default(now())
+
+  @@index([type])
+  @@index([entityId])
+  @@index([createdAt])
 }
