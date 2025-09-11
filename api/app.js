@@ -13,7 +13,10 @@ import testRoute from "./routes/test.route.js";
 import userRoute from "./routes/user.route.js";
 import chatRoute from "./routes/chat.route.js";
 import messageRoute from "./routes/message.route.js";
-import listingRoute from "./routes/listings.route.js"; // ✅ NEW
+import listingRoute from "./routes/listings.route.js";
+import contactRoute from "./routes/contact.route.js";
+import adminRoute from "./routes/admin.route.js";
+import bookingRoute from "./routes/booking.route.js";
 
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
@@ -41,7 +44,10 @@ app.use("/api/posts", postRoute);
 app.use("/api/test", testRoute);
 app.use("/api/chats", chatRoute);
 app.use("/api/messages", messageRoute);
-app.use("/api/listings", listingRoute); // ✅ NEW
+app.use("/api/listings", listingRoute);
+app.use("/api/contact", contactRoute);
+app.use("/api/admin", adminRoute);
+app.use("/api/bookings", bookingRoute);
 
 // Optional DB check route
 // app.get('/check-db', async (req, res) => {
@@ -49,7 +55,7 @@ app.use("/api/listings", listingRoute); // ✅ NEW
 //     const users = await prisma.user.findMany();
 //     res.send(`✅ Connected to MongoDB! Found ${users.length} user(s).`);
 //   } catch (error) {
-//     console.error("❌ MongoDB connection failed:", error);
+//     console.error("MongoDB connection failed:", error);
 //     res.status(500).send("❌ MongoDB connection failed");
 //   }
 // });
