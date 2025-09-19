@@ -243,3 +243,65 @@ export const resetPassword = async (req, res) => {
     res.status(500).json({ message: "Failed to reset password!" });
   }
 };
+
+// GET /api/auth/me — return current user from JWT cookie
+export const getMe = async (req, res) => {
+  const token = req.cookies?.token;
+  if (!token) return res.status(401).json({ message: "Not authenticated" });
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const user = await prisma.user.findUnique({
+      where: { id: payload.id },
+      select: { id: true, username: true, email: true, avatar: true, role: true },
+    });
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch {
+    res.status(401).json({ message: "Invalid token" });
+  }
+};
+
+// POST /api/auth/clerk-sync — verify Clerk session, find/create user in our DB, issue JWT
+export const clerkSync = async (req, res) => {
+  const { token } = req.body;
+  if (!token) return res.status(400).json({ message: "No token provided" });
+
+  try {
+    const { createClerkClient } = await import("@clerk/backend");
+    const clerk = createClerkClient({ secretKey: process.env.CLERK_SECRET_KEY });
+
+    // Verify the Clerk session token and get the user
+    const payload = await clerk.verifyToken(token);
+    const clerkUser = await clerk.users.getUser(payload.sub);
+
+    const email = clerkUser.emailAddresses.find(e => e.id === clerkUser.primaryEmailAddressId)?.emailAddress;
+    if (!email) return res.status(400).json({ message: "No email from provider" });
+
+    const name = [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(" ") || clerkUser.username || email.split("@")[0];
+    const avatar = clerkUser.imageUrl;
+    const clerkId = clerkUser.id;
+
+    let user = await prisma.user.findFirst({
+      where: { OR: [{ oauthId: clerkId, oauthProvider: "clerk" }, { email }] },
+    });
+
+    if (!user) {
+      let base = name.replace(/\s+/g, "").toLowerCase();
+      let username = base;
+      let n = 1;
+      while (await prisma.user.findUnique({ where: { username } })) username = `${base}${n++}`;
+      user = await prisma.user.create({
+        data: { email, username, avatar, oauthProvider: "clerk", oauthId: clerkId, isEmailVerified: true },
+      });
+    } else if (!user.oauthId) {
+      user = await prisma.user.update({ where: { id: user.id }, data: { oauthProvider: "clerk", oauthId: clerkId, avatar } });
+    }
+
+    const jwtToken = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
+    res.cookie("token", jwtToken, { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000, sameSite: "lax" });
+    res.json({ id: user.id, username: user.username, email: user.email, avatar: user.avatar, role: user.role });
+  } catch (err) {
+    console.error("Clerk sync error:", err.message);
+    res.status(401).json({ message: "Authentication failed" });
+  }
+};
