@@ -1,11 +1,60 @@
 import prisma from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
 
+// ✅ GET PRICE HISTORY for a property
+export const getPriceHistory = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const history = await prisma.priceHistory.findMany({
+      where: { postId: id },
+      orderBy: { date: "asc" },
+    });
+
+    // Always include current price as the latest point
+    const post = await prisma.post.findUnique({ where: { id }, select: { price: true, createdAt: true } });
+    if (!post) return res.json([]);
+
+    // If no history, return just the creation price as the starting point
+    const points = history.length
+      ? history.map(h => ({ price: h.price, date: h.date }))
+      : [{ price: post.price, date: post.createdAt }];
+
+    // Add current price as final point if it differs from last recorded
+    const last = points[points.length - 1];
+    if (last.price !== post.price) {
+      points.push({ price: post.price, date: new Date() });
+    }
+
+    res.json(points);
+  } catch (err) {
+    console.error("Price history error:", err);
+    res.json([]);
+  }
+};
+
+// ✅ GET CITY SUGGESTIONS for autocomplete
+export const getCities = async (req, res) => {
+  const { q = "" } = req.query;
+  try {
+    const posts = await prisma.post.findMany({
+      where: q ? { city: { contains: q, mode: "insensitive" } } : {},
+      select: { city: true },
+      distinct: ["city"],
+      take: 8,
+      orderBy: { city: "asc" },
+    });
+    res.json(posts.map(p => p.city).filter(Boolean));
+  } catch (err) {
+    res.json([]);
+  }
+};
+
 // ✅ GET ALL POSTS with filtering support and debug logging
 export const getPosts = async (req, res) => {
-  const { 
+  const {
     city, type, property, bedroom, bathroom, minPrice, maxPrice,
-    minSize, maxSize, utilities, pet, income, nearSchool, nearBus, nearRestaurant, sortBy
+    minSize, maxSize, utilities, pet, income, nearSchool, nearBus, nearRestaurant, sortBy, status,
+    latMin, latMax, lngMin, lngMax
   } = req.query;
 
   try {
@@ -13,7 +62,7 @@ export const getPosts = async (req, res) => {
     const postDetailFilters = {};
 
     // 🔍 Log raw incoming query
-    console.log("✅ Incoming query:", req.query);
+    console.log("Incoming query:", req.query);
 
     // City: case-insensitive partial match
     if (city && city.trim() !== "") {
@@ -108,63 +157,85 @@ export const getPosts = async (req, res) => {
       };
     }
 
-    // Add postDetail filters if any exist
+    if (status && ["available","under_offer","sold"].includes(status)) {
+      filters.status = status;
+    }
+
     if (Object.keys(postDetailFilters).length > 0) {
       filters.postDetail = postDetailFilters;
     }
-
-    // 🔍 Log final Prisma filters being applied
-    console.log("✅ Applied filters:", filters);
 
     // Add sorting
     let orderBy = {};
     if (sortBy) {
       switch (sortBy) {
-        case "price-asc":
-          orderBy = { price: "asc" };
-          break;
-        case "price-desc":
-          orderBy = { price: "desc" };
-          break;
-        case "size-asc":
-          orderBy = { postDetail: { size: "asc" } };
-          break;
-        case "size-desc":
-          orderBy = { postDetail: { size: "desc" } };
-          break;
-        case "newest":
-          orderBy = { createdAt: "desc" };
-          break;
-        case "oldest":
-          orderBy = { createdAt: "asc" };
-          break;
-        default:
-          orderBy = { price: "asc" };
+        case "price-asc":   orderBy = { price: "asc" };  break;
+        case "price-desc":  orderBy = { price: "desc" }; break;
+        case "size-asc":    orderBy = { postDetail: { size: "asc" } };  break;
+        case "size-desc":   orderBy = { postDetail: { size: "desc" } }; break;
+        case "newest":      orderBy = { createdAt: "desc" }; break;
+        case "oldest":      orderBy = { createdAt: "asc" };  break;
+        default:            orderBy = { price: "asc" };
       }
     } else {
       orderBy = { price: "asc" };
     }
 
-    console.log("✅ Applied sorting:", orderBy);
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    const limit = Math.min(24, parseInt(req.query.limit) || 12);
+    const skip = (page - 1) * limit;
 
-    const posts = await prisma.post.findMany({
-      where: filters,
-      include: {
-        user: {
-          select: {
-            username: true,
-            avatar: true,
-          },
+    // Bounding box: lat/lng stored as strings → filter in JS after fetch
+    const hasBounds = latMin && latMax && lngMin && lngMax;
+
+    if (hasBounds) {
+      // Fetch ALL matching posts (other filters applied), then filter by coords in JS
+      const allPosts = await prisma.post.findMany({
+        where: filters,
+        include: {
+          user: { select: { username: true, avatar: true } },
+          postDetail: true,
         },
-        postDetail: true,
-      },
-      orderBy: orderBy,
-    });
+        orderBy,
+      });
 
-    console.log(`✅ Posts found: ${posts.length}`);
-    res.status(200).json(posts);
+      const latMinF = Math.min(+latMin, +latMax);
+      const latMaxF = Math.max(+latMin, +latMax);
+      const lngMinF = Math.min(+lngMin, +lngMax);
+      const lngMaxF = Math.max(+lngMin, +lngMax);
+
+      const bounded = allPosts.filter(p => {
+        const lat = parseFloat(p.latitude);
+        const lng = parseFloat(p.longitude);
+        return !isNaN(lat) && !isNaN(lng) &&
+               lat >= latMinF && lat <= latMaxF &&
+               lng >= lngMinF && lng <= lngMaxF;
+      });
+
+      const total = bounded.length;
+      const sliced = bounded.slice(skip, skip + limit);
+      console.log(`Map search: ${total} posts in bounds`);
+      return res.status(200).json({ posts: sliced, total, page, pages: Math.ceil(total / limit) || 1 });
+    }
+
+    const [posts, total] = await Promise.all([
+      prisma.post.findMany({
+        where: filters,
+        include: {
+          user: { select: { username: true, avatar: true } },
+          postDetail: true,
+        },
+        orderBy,
+        skip,
+        take: limit,
+      }),
+      prisma.post.count({ where: filters }),
+    ]);
+
+    console.log(`Posts found: ${posts.length} / ${total}`);
+    res.status(200).json({ posts, total, page, pages: Math.ceil(total / limit) });
   } catch (err) {
-    console.error("❌ getPosts error:", err);
+    console.error("getPosts error:", err);
     res.status(500).json({ message: "Failed to get posts" });
   }
 };
@@ -300,16 +371,20 @@ export const updatePost = async (req, res) => {
       },
     });
 
-    // Check for price drop and emit event if price decreased
+    // Record price history whenever price changes
+    if (newPrice !== originalPrice) {
+      await prisma.priceHistory.create({
+        data: { postId: id, price: newPrice },
+      });
+      console.log(`📈 Price change recorded: ${existingPost.title} $${originalPrice} → $${newPrice}`);
+    }
+
     if (newPrice < originalPrice) {
-      console.log(`🚨 Price drop detected: ${existingPost.title} - $${originalPrice} → $${newPrice}`);
-      
-      // Add price drop notification flag to response
       updatedPost.priceDropDetected = {
         oldPrice: originalPrice,
         newPrice: newPrice,
         savings: originalPrice - newPrice,
-        percentage: (((originalPrice - newPrice) / originalPrice) * 100).toFixed(1)
+        percentage: (((originalPrice - newPrice) / originalPrice) * 100).toFixed(1),
       };
     }
 
