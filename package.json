@@ -5,14 +5,26 @@
   "main": "index.js",
   "scripts": {
     "install-all": "npm install && cd api && npm install && cd ../client && npm install && cd ../socket && npm install",
+
     "dev": "concurrently \"npm run dev:api\" \"npm run dev:client\" \"npm run dev:socket\"",
     "dev:api": "cd api && npm run dev",
-    "dev:client": "cd client && npm run dev", 
+    "dev:client": "cd client && npm run dev",
     "dev:socket": "cd socket && npm start",
+
+    "dev:microservices": "concurrently --names \"GW,AUTH,LIST,CHAT,NOTIFY,SEARCH,ANALYTICS,CLIENT\" \"npm run dev:gateway\" \"npm run dev:auth\" \"npm run dev:listing\" \"npm run dev:chat\" \"npm run dev:notify\" \"npm run dev:search\" \"npm run dev:analytics\" \"npm run dev:client\"",
+    "dev:gateway": "node gateway/app.js",
+    "dev:auth": "node services/auth-service/app.js",
+    "dev:listing": "node services/listing-service/app.js",
+    "dev:chat": "node services/chat-service/app.js",
+    "dev:notify": "node services/notification-service/app.js",
+    "dev:search": "node services/search-service/app.js",
+    "dev:analytics": "node services/analytics-service/app.js",
+
     "start": "concurrently \"npm run start:api\" \"npm run start:client\" \"npm run start:socket\"",
     "start:api": "cd api && npm start",
     "start:client": "cd client && npm run preview",
     "start:socket": "cd socket && npm start",
+
     "build": "cd client && npm run build",
     "build:api": "cd api && npm run build",
     "build:client": "cd client && npm run build",
@@ -21,21 +33,10 @@
     "deploy:railway": "railway deploy"
   },
   "keywords": [
-    "real-estate",
-    "mern-stack",
-    "react",
-    "nodejs", 
-    "mongodb",
-    "prisma",
-    "socket.io",
-    "real-time-chat",
-    "property-management",
-    "full-stack",
-    "responsive-design",
-    "multi-language",
-    "stripe-payment",
-    "leaflet-maps",
-    "jwt-authentication"
+    "real-estate", "mern-stack", "react", "nodejs", "mongodb", "prisma",
+    "socket.io", "real-time-chat", "property-management", "full-stack",
+    "responsive-design", "stripe-payment", "leaflet-maps", "jwt-authentication",
+    "rabbitmq", "redis", "microservices", "event-driven", "cqrs"
   ],
   "author": {
     "name": "Professional Developer",
@@ -54,12 +55,16 @@
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
   },
+  "dependencies": {
+    "http-proxy-middleware": "^3.0.3"
+  },
   "devDependencies": {
     "concurrently": "^8.2.0"
   },
   "workspaces": [
     "api",
-    "client", 
-    "socket"
+    "client",
+    "socket",
+    "gateway"
   ]
 }
