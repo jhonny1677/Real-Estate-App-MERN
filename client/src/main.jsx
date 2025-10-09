@@ -8,11 +8,14 @@ import { FavoritesProvider } from "./context/FavoritesContext";
 import { RecommendationsProvider } from "./context/RecommendationsContext";
 import { CurrencyProvider } from "./context/CurrencyContext";
 import { VisitsProvider } from "./context/VisitsContext";
-import "./i18n"; // Initialize i18n
+import { ClerkProvider } from "@clerk/clerk-react";
+import "./i18n";
 import "./index.scss";
 import "./styles/rtl.scss";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+const CLERK_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+const Providers = ({ children }) => (
   <ThemeContextProvider>
     <AuthContextProvider>
       <CurrencyProvider>
@@ -21,7 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <RecommendationsProvider>
               <ChatContextProvider>
                 <SocketContextProvider>
-                  <App />
+                  {children}
                 </SocketContextProvider>
               </ChatContextProvider>
             </RecommendationsProvider>
@@ -30,4 +33,19 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       </CurrencyProvider>
     </AuthContextProvider>
   </ThemeContextProvider>
+);
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  CLERK_KEY
+    ? (
+      <ClerkProvider
+        publishableKey={CLERK_KEY}
+        signInUrl="/login"
+        signUpUrl="/register"
+        fallbackRedirectUrl="/sync-user"
+      >
+        <Providers><App /></Providers>
+      </ClerkProvider>
+    )
+    : <Providers><App /></Providers>
 );
