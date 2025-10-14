@@ -1,14 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import "./searchBar.scss";
 import { Link, useLocation } from "react-router-dom";
+import apiRequest from "../../lib/apiRequest";
 
 const types = ["buy", "rent"];
-
-const availableCities = [
-  'Austin', 'Boston', 'Chicago', 'Los Angeles', 'Miami', 'Nashville',
-  'New York', 'Phoenix', 'Portland', 'San Francisco', 'Sydney', 'Toronto'
-];
 
 function SearchBar() {
   const { t } = useTranslation();
@@ -21,8 +17,8 @@ function SearchBar() {
   });
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const debounceRef = useRef(null);
 
-  // ✅ On page load, extract query params and set them
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     setQuery({
@@ -33,6 +29,21 @@ function SearchBar() {
     });
   }, [location.search]);
 
+  const fetchCities = (q) => {
+    clearTimeout(debounceRef.current);
+    if (!q) { setSuggestions([]); setShowSuggestions(false); return; }
+    debounceRef.current = setTimeout(async () => {
+      try {
+        const res = await apiRequest.get(`/posts/cities?q=${encodeURIComponent(q)}`);
+        setSuggestions(res.data || []);
+        setShowSuggestions((res.data || []).length > 0);
+      } catch {
+        setSuggestions([]);
+        setShowSuggestions(false);
+      }
+    }, 250);
+  };
+
   const switchType = (val) => {
     setQuery((prev) => ({ ...prev, type: val }));
   };
@@ -40,30 +51,11 @@ function SearchBar() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setQuery((prev) => ({ ...prev, [name]: value }));
-
-    // Handle city autocomplete
-    if (name === 'city') {
-      if (value.length > 0) {
-        const filtered = availableCities.filter(city =>
-          city.toLowerCase().includes(value.toLowerCase())
-        );
-        setSuggestions(filtered);
-        setShowSuggestions(filtered.length > 0);
-      } else {
-        setSuggestions([]);
-        setShowSuggestions(false);
-      }
-    }
+    if (name === "city") fetchCities(value);
   };
 
   const handleFocus = () => {
-    if (query.city.length > 0) {
-      const filtered = availableCities.filter(city =>
-        city.toLowerCase().includes(query.city.toLowerCase())
-      );
-      setSuggestions(filtered);
-      setShowSuggestions(filtered.length > 0);
-    }
+    if (query.city) fetchCities(query.city);
   };
 
   const selectSuggestion = (city) => {
