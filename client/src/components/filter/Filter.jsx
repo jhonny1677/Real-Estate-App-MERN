@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import "./filter.scss";
 import { useSearchParams } from "react-router-dom";
+import apiRequest from "../../lib/apiRequest";
 
 function Filter() {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [citySuggestions, setCitySuggestions] = useState([]);
+  const [showCitySuggestions, setShowCitySuggestions] = useState(false);
+  const cityDebounce = useRef(null);
   const [query, setQuery] = useState({
     type: searchParams.get("type") || "",
     city: searchParams.get("city") || "",
@@ -26,10 +30,19 @@ function Filter() {
   });
 
   const handleChange = (e) => {
-    setQuery({
-      ...query,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setQuery({ ...query, [name]: value });
+    if (name === "city") {
+      clearTimeout(cityDebounce.current);
+      if (!value) { setCitySuggestions([]); setShowCitySuggestions(false); return; }
+      cityDebounce.current = setTimeout(async () => {
+        try {
+          const res = await apiRequest.get(`/posts/cities?q=${encodeURIComponent(value)}`);
+          setCitySuggestions(res.data || []);
+          setShowCitySuggestions((res.data || []).length > 0);
+        } catch { setCitySuggestions([]); }
+      }, 250);
+    }
   };
 
   const handleFilter = () => {
@@ -63,12 +76,10 @@ function Filter() {
 
   return (
     <div className="filter">
-      <h1>
-        {t('search.resultsFor')} <b>{searchParams.get("city") || t('search.allCities')}</b>
-      </h1>
+      <h1>Search Filters</h1>
       
       <div className="top">
-        <div className="item">
+        <div className="item" style={{ position: "relative" }}>
           <label htmlFor="city">{t('search.location')}</label>
           <input
             type="text"
@@ -77,7 +88,32 @@ function Filter() {
             placeholder={t('search.cityLocation')}
             onChange={handleChange}
             value={query.city}
+            onBlur={() => setTimeout(() => setShowCitySuggestions(false), 150)}
+            autoComplete="off"
           />
+          {showCitySuggestions && citySuggestions.length > 0 && (
+            <div style={{
+              position: "absolute", top: "100%", left: 0, right: 0,
+              background: "white", border: "1px solid #e5e5e5", borderRadius: "8px",
+              boxShadow: "0 4px 16px rgba(0,0,0,0.1)", zIndex: 999, overflow: "hidden"
+            }}>
+              {citySuggestions.map(city => (
+                <div
+                  key={city}
+                  onMouseDown={() => { setQuery(q => ({ ...q, city })); setShowCitySuggestions(false); }}
+                  style={{
+                    padding: "9px 14px", cursor: "pointer", fontSize: "14px",
+                    display: "flex", alignItems: "center", gap: "8px", color: "#444",
+                    borderBottom: "1px solid #f5f5f5"
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = "#f8f8f8"}
+                  onMouseLeave={e => e.currentTarget.style.background = "white"}
+                >
+                  <span style={{ fontSize: "12px", opacity: 0.6 }}>📍</span>{city}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

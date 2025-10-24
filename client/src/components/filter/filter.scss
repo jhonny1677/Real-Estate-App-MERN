@@ -53,7 +53,7 @@
   
         input:focus,
         select:focus {
-          border-color: #007bff;
+          border-color: var(--color-primary);
         }
       }
   
@@ -97,12 +97,12 @@
           select {
             background-color: #2b2b2b;
             color: #f1f1f1;
-            border-color: #444;
+            border-color: rgba(255, 255, 255, 0.15);
           }
-  
+
           input:focus,
           select:focus {
-            border-color: #90caf9;
+            border-color: var(--color-primary);
           }
         }
   
@@ -128,16 +128,16 @@
       
       .toggle-advanced {
         padding: 8px 16px;
-        border: 1px solid #007bff;
+        border: 1px solid var(--color-primary);
         background-color: transparent;
-        color: #007bff;
+        color: var(--color-primary);
         border-radius: 6px;
         cursor: pointer;
         transition: all 0.3s ease;
         font-size: 14px;
         
         &:hover {
-          background-color: #007bff;
+          background-color: var(--color-primary);
           color: white;
         }
       }
@@ -159,10 +159,11 @@
       }
       
       .search-button {
-        padding: 10px 16px;
+        padding: 10px 20px;
         border: none;
         cursor: pointer;
-        background-color: #ffc107;
+        background-color: #3498db;
+        color: white;
         border-radius: 6px;
         display: flex;
         align-items: center;
@@ -172,12 +173,13 @@
         font-weight: 500;
 
         &:hover {
-          background-color: #e0a800;
+          background-color: #2980b9;
         }
 
         img {
           width: 16px;
           height: 16px;
+          filter: brightness(0) invert(1);
         }
       }
     }
@@ -234,7 +236,7 @@
             transition: border 0.2s ease;
             
             &:focus {
-              border-color: #007bff;
+              border-color: var(--color-primary);
             }
           }
         }
@@ -289,10 +291,10 @@
           input, select {
             background-color: #3c3c3c;
             color: #f1f1f1;
-            border-color: #555;
-            
+            border-color: rgba(255, 255, 255, 0.15);
+
             &:focus {
-              border-color: #90caf9;
+              border-color: var(--color-primary);
             }
           }
         }
