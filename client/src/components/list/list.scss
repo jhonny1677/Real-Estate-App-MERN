@@ -1,7 +1,7 @@
 .list {
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 20px;
     padding: 20px 40px;
     overflow-x: hidden;
     min-height: 100vh;
@@ -13,7 +13,17 @@
     .posts {
       display: flex;
       flex-direction: column;
-      gap: 50px;
+      gap: 20px;
+
+      &.grid-view {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+
+        @media (min-width: 1200px) {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
     }
 
     .pagination {
