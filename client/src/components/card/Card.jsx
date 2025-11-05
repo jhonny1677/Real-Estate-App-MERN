@@ -54,12 +54,12 @@ function Card({ item }) {
         data: { text: "👋", chatId },
       });
     } catch (err) {
-      console.error("❌ Failed to send message:", err);
+      console.error("Failed to send message:", err);
     }
   };
 
   const handleEdit = () => {
-    navigate(`/edit/${item.id}`); // ✅ Navigates to edit page
+    navigate(`/edit/${item.id}`);
   };
 
   const handleDelete = async () => {
@@ -67,7 +67,7 @@ function Card({ item }) {
     if (!confirmDelete) return;
 
     try {
-      await apiRequest.delete(`/posts/${item.id}`); // ✅ Deletes from backend
+      await apiRequest.delete(`/posts/${item.id}`);
       alert(t('common.deleteSuccess'));
       window.location.reload(); // Or use state to remove item from DOM dynamically
     } catch (err) {
@@ -89,6 +89,11 @@ function Card({ item }) {
           className="card-image"
         />
         {item.isNew && <div className="tag">{t('property.new')}</div>}
+        {item.status && item.status !== "available" && (
+          <div className={`status-badge status-badge--${item.status === "sold" ? "sold" : "under-offer"}`}>
+            {item.status === "sold" ? "Sold" : "Under Offer"}
+          </div>
+        )}
       </Link>
 
       <div className="textContainer">
@@ -118,15 +123,15 @@ function Card({ item }) {
           <div className="icons">
             {item.userId === currentUser?.id ? (
               <>
-                <div className="icon" onClick={handleEdit}>
+                <div className="icon" onClick={handleEdit} title="Edit listing">
                   <img src="/edit.png" alt="edit" />
                 </div>
-                <div className="icon" onClick={handleDelete}>
+                <div className="icon" onClick={handleDelete} title="Delete listing">
                   <img src="/delete.png" alt="delete" />
                 </div>
               </>
             ) : (
-              <div className="icon messageIcon" onClick={handleMessage}>
+              <div className="icon messageIcon" onClick={handleMessage} title="Message agent">
                 <img src="/chat.png" alt="chat" />
                 {showBadge && <div className="redDot"></div>}
               </div>
