@@ -130,86 +130,65 @@ function Slider({ images = [] }) {
         <span style={{ color: 'white', fontSize: '20px', fontWeight: 'bold' }}>›</span>
       </div>
 
-      {/* Modal Content */}
-      <div 
-        className="imgContainer"
+      {/* Close Button */}
+      <button
+        onClick={() => setImageIndex(null)}
+        title="Close (ESC)"
         style={{
-          width: '600px',
-          height: '400px',
-          backgroundColor: 'white',
-          borderRadius: '12px',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
-          overflow: 'hidden'
+          position: 'fixed', top: '20px', right: '20px',
+          width: '42px', height: '42px',
+          background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.3)',
+          borderRadius: '50%', color: 'white', fontSize: '20px',
+          cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 1000001, backdropFilter: 'blur(4px)'
         }}
-      >
-        <img 
-          src={safeImages[imageIndex] || "/noimage.jpg"} 
-          alt="Property fullscreen image"
-          style={{
-            maxWidth: '100%',
-            maxHeight: '100%',
-            objectFit: 'contain',
-            borderRadius: '8px'
-          }}
-        />
-        
-        {/* Close Button */}
-        <div 
-          onClick={() => setImageIndex(null)} 
-          title="Close (ESC)"
-          style={{
-            position: 'absolute',
-            top: '15px',
-            right: '15px',
-            width: '40px',
-            height: '40px',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            color: 'white',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            fontSize: '20px',
-            fontWeight: 'bold',
-            border: '2px solid rgba(255, 255, 255, 0.9)',
-            transition: 'all 0.3s ease',
-            zIndex: 1000001
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.backgroundColor = 'rgba(220, 38, 38, 0.9)';
-            e.target.style.transform = 'scale(1.1)';
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-            e.target.style.transform = 'scale(1)';
-          }}
-        >
-          ✕
-        </div>
+      >✕</button>
 
-        {/* Image Counter */}
-        <div 
-          style={{
-            position: 'absolute',
-            bottom: '15px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            backgroundColor: 'rgba(0, 0, 0, 0.7)',
-            color: 'white',
-            padding: '8px 16px',
-            borderRadius: '20px',
-            fontSize: '14px',
-            fontWeight: '500'
-          }}
-        >
-          {imageIndex + 1} / {safeImages.length}
-        </div>
+      {/* Image — full screen */}
+      <img
+        src={safeImages[imageIndex] || "/noimage.jpg"}
+        alt="Property fullscreen"
+        style={{
+          maxWidth: 'calc(100vw - 160px)',
+          maxHeight: 'calc(100vh - 100px)',
+          objectFit: 'contain',
+          borderRadius: '4px',
+          userSelect: 'none'
+        }}
+      />
+
+      {/* Counter */}
+      <div style={{
+        position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)',
+        background: 'rgba(0,0,0,0.6)', color: 'white',
+        padding: '6px 16px', borderRadius: '20px', fontSize: '13px',
+        backdropFilter: 'blur(4px)', letterSpacing: '0.05em'
+      }}>
+        {imageIndex + 1} / {safeImages.length}
       </div>
+
+      {/* Thumbnails */}
+      {safeImages.length > 1 && (
+        <div style={{
+          position: 'fixed', bottom: '60px', left: '50%', transform: 'translateX(-50%)',
+          display: 'flex', gap: '8px'
+        }}>
+          {safeImages.map((img, i) => (
+            <img
+              key={i}
+              src={img || "/noimage.jpg"}
+              alt=""
+              onClick={(e) => { e.stopPropagation(); setImageIndex(i); }}
+              style={{
+                width: '52px', height: '38px', objectFit: 'cover', borderRadius: '4px',
+                cursor: 'pointer', opacity: i === imageIndex ? 1 : 0.5,
+                border: i === imageIndex ? '2px solid white' : '2px solid transparent',
+                transition: 'opacity 0.2s, border 0.2s'
+              }}
+            />
+          ))}
+        </div>
+      )}
     </div>
   ) : null;
 
