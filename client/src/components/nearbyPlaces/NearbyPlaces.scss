@@ -1,0 +1,369 @@
+// ── Leaflet popup content (lives inside Leaflet DOM, must be global) ──────────
+// Force light background + dark text so popups are readable in both themes.
+.nearby-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 140px;
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+
+  strong {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a1a !important;
+    line-height: 1.3;
+  }
+
+  span {
+    font-size: 11px;
+    color: #1a1a1a !important;
+  }
+}
+
+// Force Leaflet's own popup wrapper to stay white so dark-mode page styles
+// don't bleed into the popup bubble.
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.2) !important;
+}
+
+// ── Map wrapper ───────────────────────────────────────────────────────────────
+.nearby-map-wrap {
+  margin-bottom: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+
+  .nearby-map {
+    height: 350px;
+    width: 100%;
+  }
+
+  // ── Legend strip below map ──
+  .nearby-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    padding: 10px 14px;
+    background: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+
+    .nearby-legend-home {
+      font-size: 12px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    .nearby-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: #444;
+
+      .nearby-legend-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 1.5px solid white;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  // ── Route hint strip ──
+  .nearby-route-hint {
+    font-size: 12px;
+    color: #555;
+    padding: 7px 14px;
+    background: #f0f7ff;
+    margin: 0;
+    border-top: 1px solid #d0e8f8;
+    line-height: 1.4;
+
+    strong { color: #2980b9; font-weight: 600; }
+
+    &.muted {
+      color: #999;
+      font-style: italic;
+      background: #f8f9fa;
+      border-top-color: #e0e0e0;
+    }
+  }
+}
+
+// ── Nearby Places section ─────────────────────────────────────────────────────
+.nearby-places {
+  padding-top: 8px;
+
+  .nearby-subtitle {
+    font-size: 12px;
+    color: #888;
+    margin: 0 0 16px;
+    font-style: italic;
+  }
+
+  .nearby-group {
+    margin-bottom: 16px;
+
+    &:last-child { margin-bottom: 0; }
+
+    .nearby-group-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #2c3e50;
+      margin: 0 0 10px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #3498db;
+    }
+
+    .nearby-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    .nearby-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      border: 1px solid #e9ecef;
+      border-left: 3px solid transparent;
+      transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+
+      &:hover {
+        background: #f0f7ff;
+        border-color: #d0e8f8;
+        border-left-color: #3498db;
+        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+      }
+
+      .nearby-card-icon {
+        font-size: 20px;
+        line-height: 1;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      .nearby-card-body {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .nearby-card-name {
+          font-size: 13px;
+          font-weight: 600;
+          color: #2c3e50;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          line-height: 1.35;
+        }
+
+        .nearby-card-meta {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+
+          .nearby-card-dist,
+          .nearby-card-walk {
+            font-size: 11px;
+            font-weight: 500;
+            color: #1a1a1a !important;
+            background: #f0f0f0 !important;
+            border: 1px solid #d0d0d0;
+            border-radius: 20px;
+            padding: 2px 8px;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ── Loading spinner ───────────────────────────────────────────────────────────
+.nearby-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px;
+  gap: 14px;
+
+  p {
+    color: #888;
+    font-size: 14px;
+    margin: 0;
+  }
+
+  .nearby-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid #e9ecef;
+    border-top-color: #3498db;
+    border-radius: 50%;
+    animation: nearby-spin 0.8s linear infinite;
+  }
+}
+
+@keyframes nearby-spin {
+  to { transform: rotate(360deg); }
+}
+
+// ── Empty / error state ───────────────────────────────────────────────────────
+.nearby-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 20px;
+  text-align: center;
+  background: #1a1a2e;
+  border-radius: 14px;
+  border: 2px solid #2c3e50;
+
+  .nearby-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+    opacity: 0.7;
+  }
+
+  p {
+    font-size: 15px;
+    color: #adb5bd;
+    margin: 0 0 6px;
+  }
+
+  small {
+    font-size: 12px;
+    color: #6c757d;
+    font-style: italic;
+  }
+}
+
+// ── Dark mode ─────────────────────────────────────────────────────────────────
+body.dark {
+
+  // ── Map wrapper ──────────────────────────────────────────────────────────
+  .nearby-map-wrap {
+    border-color: #3a3a4a;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+
+    .nearby-legend {
+      background: #232335;
+      border-top-color: #3a3a4a;
+
+      // every text node in the legend
+      .nearby-legend-home,
+      .nearby-legend-item,
+      .nearby-legend-item span:not(.nearby-legend-dot) {
+        color: #cccccc !important;
+      }
+
+      .nearby-legend-dot { border-color: #232335; }
+    }
+
+    .nearby-route-hint {
+      background: #1e2a38;
+      border-top-color: #2a3a4a;
+      color: #aaaaaa !important;
+
+      // all inline elements inside the hint
+      span, em, p { color: #aaaaaa !important; }
+      strong       { color: #64b5f6 !important; }
+
+      &.muted {
+        background: #232335;
+        border-top-color: #3a3a4a;
+        color: #777777 !important;
+        span, em, p { color: #777777 !important; }
+      }
+    }
+  }
+
+  // ── Leaflet popup (appended to body by Leaflet, not inside .nearby-places) ─
+  .nearby-popup {
+    strong { color: #ffffff !important; }
+    span   { color: #dddddd !important; }
+    p      { color: #dddddd !important; }
+  }
+
+  // ── Category cards section ────────────────────────────────────────────────
+  .nearby-places {
+
+    // attribution line "Nearest places within 2 km…"
+    .nearby-subtitle,
+    p.nearby-subtitle { color: #aaaaaa !important; }
+
+    // category headings — "🏫 Schools", "🏥 Healthcare", etc.
+    .nearby-group-title,
+    h4.nearby-group-title {
+      color: #ffffff !important;
+      font-weight: 700;
+    }
+
+    .nearby-card {
+      background: #32324a;
+      border-color: #3e3e56;
+      border-left-color: transparent;
+
+      &:hover {
+        background: #3a3a55;
+        border-color: #3e3e56;
+        border-left-color: #3498db;
+        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+      }
+
+      // place name
+      .nearby-card-name,
+      .nearby-card-body .nearby-card-name,
+      .nearby-card-body span.nearby-card-name {
+        color: #ffffff !important;
+      }
+
+      // distance and walk-time badges
+      .nearby-card-dist,
+      .nearby-card-walk,
+      .nearby-card-meta .nearby-card-dist,
+      .nearby-card-meta .nearby-card-walk {
+        background: rgba(255, 255, 255, 0.15) !important;
+        border-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff !important;
+      }
+
+      // any other span/p inside the card body
+      .nearby-card-body span:not(.nearby-card-name):not(.nearby-card-dist):not(.nearby-card-walk),
+      .nearby-card-body p {
+        color: #cccccc !important;
+      }
+    }
+  }
+
+  // ── Loading state ─────────────────────────────────────────────────────────
+  .nearby-loading {
+    p, span { color: #aaaaaa !important; }
+    .nearby-spinner { border-color: #333; border-top-color: #3498db; }
+  }
+
+  // ── Empty / error state ───────────────────────────────────────────────────
+  .nearby-empty {
+    background: #0f0f1e;
+    border-color: #2c3e50;
+
+    p, .nearby-empty-icon { color: #adb5bd !important; }
+    small                  { color: #888888 !important; }
+  }
+}
