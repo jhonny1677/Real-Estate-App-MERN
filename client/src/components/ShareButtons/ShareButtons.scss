@@ -1,0 +1,38 @@
+.share-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 12px 0;
+
+  .share-label {
+    font-size: 13px;
+    color: #888;
+    font-weight: 500;
+    margin-right: 4px;
+  }
+
+  .share-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1px solid #e5e5e5;
+    background: white;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: #333;
+
+    &:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
+    &:active { transform: translateY(0); }
+  }
+
+  .copy-btn:hover   { border-color: var(--color-primary); color: var(--color-primary); }
+  .whatsapp-btn     { color: #25d366; border-color: #c8f0d8; background: #f0fdf4; }
+  .whatsapp-btn:hover { background: #dcfce7; }
+  .email-btn:hover  { border-color: #f59e0b; color: #f59e0b; }
+  .native-btn:hover { border-color: #1a1a2e; color: #1a1a2e; }
+}
