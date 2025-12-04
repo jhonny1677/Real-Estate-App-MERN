@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import apiRequest from "../lib/apiRequest";
-import { AuthContext } from "./AuthContext"; // ✅ Correct import
+import { AuthContext } from "./AuthContext";
 
 export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children }) => {
-  const { currentUser } = useContext(AuthContext); // ✅ FIXED here
+  const { currentUser } = useContext(AuthContext);
 
   const [chat, setChat] = useState(null);           // Selected chat
   const [chats, setChats] = useState([]);           // All user chats
@@ -56,11 +56,14 @@ export const ChatContextProvider = ({ children }) => {
     }
   }, [chat, currentUser]);
 
+  const closeChat = () => setChat(null);
+
   return (
     <ChatContext.Provider
       value={{
         chat,
         setChat,
+        closeChat,
         chats,
         setChats,
         unseenCount,

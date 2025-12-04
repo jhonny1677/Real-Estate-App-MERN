@@ -7,9 +7,10 @@ import { AuthContext } from "../../context/AuthContext";
 import { IoMdClose, IoMdAttach, IoMdSend, IoMdImage, IoMdDocument } from "react-icons/io";
 import { FiMinimize2, FiMaximize2, FiMic, FiMicOff } from "react-icons/fi";
 import apiRequest from "../../lib/apiRequest";
+import Avatar from "../Avatar/Avatar";
 
 function Chat() {
-  const { chat, setChat } = useChatContext();
+  const { chat, setChat, closeChat } = useChatContext();
   const { currentUser } = useContext(AuthContext);
 
   const [text, setText] = useState("");
@@ -22,10 +23,27 @@ function Chat() {
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
   const imageInputRef = useRef(null);
+  const closeBtnRef = useRef(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chat?.messages]);
+
+  // Escape key closes chat
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") closeChat(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, []);
+
+  // Native capture-phase listener on close button — bypasses React synthetic events
+  useEffect(() => {
+    const btn = closeBtnRef.current;
+    if (!btn) return;
+    const handler = (e) => { e.stopPropagation(); closeChat(); };
+    btn.addEventListener("click", handler, { capture: true });
+    return () => btn.removeEventListener("click", handler, { capture: true });
+  }, []);
 
   const handleEmojiClick = (emoji) => {
     setText((prev) => prev + emoji.emoji);
@@ -59,7 +77,7 @@ function Chat() {
 
         const updatedChat = {
           ...chat,
-          messages: [...chat.messages, res.data],
+          messages: [...(chat.messages || []), res.data],
         };
         setChat(updatedChat);
       } else {
@@ -67,7 +85,7 @@ function Chat() {
 
         const updatedChat = {
           ...chat,
-          messages: [...chat.messages, res.data],
+          messages: [...(chat.messages || []), res.data],
         };
         setChat(updatedChat);
       }
@@ -94,11 +112,7 @@ function Chat() {
       <div className="chatHeader">
         <div className="headerLeft">
           <div className="userInfo">
-            <img 
-              src={chat?.receiver?.avatar || "/noavatar.jpg"} 
-              alt="Avatar" 
-              className="userAvatar"
-            />
+            <Avatar src={chat?.receiver?.avatar} username={chat?.receiver?.username} size={36} />
             <div className="userDetails">
               <span className="chatUsername">{chat?.receiver?.username}</span>
               <span className="userStatus">online</span>
@@ -106,14 +120,21 @@ function Chat() {
           </div>
         </div>
         <div className="headerActions">
-          <button 
-            className="minimizeBtn" 
+          <button
+            className="minimizeBtn"
             onClick={() => setIsMinimized(!isMinimized)}
+            title={isMinimized ? "Expand" : "Minimise"}
           >
             {isMinimized ? <FiMaximize2 /> : <FiMinimize2 />}
           </button>
-          <button className="closeBtn" onClick={() => setChat(null)}>
-            <IoMdClose />
+          <button
+            ref={closeBtnRef}
+            type="button"
+            className="closeBtn"
+            title="Close (Esc)"
+            style={{ cursor: "pointer" }}
+          >
+            <IoMdClose style={{ pointerEvents: "none" }} />
           </button>
         </div>
       </div>
