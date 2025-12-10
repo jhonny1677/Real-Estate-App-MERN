@@ -5,9 +5,11 @@ import apiRequest from "../../lib/apiRequest";
 import { AuthContext } from "../../context/AuthContext";
 import { useChatContext } from "../../context/ChatContext";
 import { useNavigate } from "react-router-dom";
+import Avatar from "../Avatar/Avatar";
 
 function ChatList() {
   const [chats, setChats] = useState([]);
+  const [filterQuery, setFilterQuery] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -21,7 +23,7 @@ function ChatList() {
         const res = await apiRequest.get("/chats");
         setChats(res.data);
       } catch (err) {
-        console.error("❌ Failed to fetch chats", err);
+        console.error("Failed to fetch chats", err);
       }
     };
     fetchChats();
@@ -46,7 +48,7 @@ function ChatList() {
       setChat({ ...res.data, receiver: chat.receiver });
       navigate("/");
     } catch (err) {
-      console.error("❌ Failed to select chat", err);
+      console.error("Failed to select chat", err);
     }
   };
 
@@ -58,63 +60,66 @@ function ChatList() {
       setSearchQuery("");
       navigate("/");
     } catch (err) {
-      console.error("❌ Failed to start chat", err);
+      console.error("Failed to start chat", err);
     }
   };
 
+  const filteredChats = filterQuery.trim()
+    ? chats.filter(c => c.receiver?.username?.toLowerCase().includes(filterQuery.toLowerCase()))
+    : chats;
+
   return (
     <div className="chatList">
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-        <h2 style={{ margin: 0 }}>Your Conversations</h2>
-        <button
-          onClick={() => setShowSearch(!showSearch)}
-          style={{ background: "#667eea", color: "#fff", border: "none", borderRadius: "8px", padding: "8px 14px", cursor: "pointer", fontSize: "13px" }}
-        >
-          + New Chat
+      <div className="chatList-header">
+        <h2>Conversations</h2>
+        <button className="new-chat-btn" onClick={() => setShowSearch(!showSearch)}>
+          + New
         </button>
       </div>
 
+      <div className="chatList-filter">
+        <input
+          type="text"
+          className="filter-input"
+          placeholder="Filter conversations..."
+          value={filterQuery}
+          onChange={(e) => setFilterQuery(e.target.value)}
+        />
+      </div>
+
       {showSearch && (
-        <div style={{ marginBottom: "1rem" }}>
+        <div className="user-search">
           <input
             type="text"
-            placeholder="Search by username..."
+            className="search-input"
+            placeholder="Search users to message..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             autoFocus
-            style={{ width: "100%", padding: "10px 14px", borderRadius: "8px", border: "1px solid #e9ecef", fontSize: "13px", boxSizing: "border-box" }}
           />
           {searchResults.length > 0 && (
-            <div style={{ border: "1px solid #e9ecef", borderRadius: "8px", marginTop: "6px", overflow: "hidden" }}>
+            <div className="search-results">
               {searchResults.map(user => (
-                <div
-                  key={user.id}
-                  onClick={() => handleStartChat(user)}
-                  style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 14px", cursor: "pointer", borderBottom: "1px solid #f0f0f0" }}
-                  onMouseEnter={e => e.currentTarget.style.background = "#f8f9fa"}
-                  onMouseLeave={e => e.currentTarget.style.background = ""}
-                >
-                  <img src={user.avatar || "/noavatar.jpg"} alt="" style={{ width: "32px", height: "32px", borderRadius: "50%", objectFit: "cover" }} />
-                  <span style={{ fontSize: "14px", fontWeight: 500 }}>{user.username}</span>
+                <div key={user.id} className="search-result-item" onClick={() => handleStartChat(user)}>
+                  <Avatar src={user.avatar} username={user.username} size={32} />
+                  <span>{user.username}</span>
                 </div>
               ))}
             </div>
           )}
           {searchQuery && searchResults.length === 0 && (
-            <p style={{ fontSize: "13px", color: "#888", marginTop: "8px", textAlign: "center" }}>No users found</p>
+            <p className="no-results">No users found</p>
           )}
         </div>
       )}
 
-      {chats.length === 0 && !showSearch ? (
-        <div style={{ padding: "2rem", textAlign: "center", color: "#888" }}>
+      {filteredChats.length === 0 && !showSearch ? (
+        <div className="chatList-empty">
           <p>No conversations yet.</p>
-          <p style={{ fontSize: "0.9rem", marginTop: "0.5rem" }}>
-            Click <strong>"+ New Chat"</strong> to message someone, or open a property listing and click <strong>"Send a Message"</strong>.
-          </p>
+          <p>Click <strong>+ New</strong> to message someone.</p>
         </div>
       ) : (
-        chats.map((chat) => (
+        filteredChats.map((chat) => (
           <ChatItem
             key={chat.id}
             chat={chat}

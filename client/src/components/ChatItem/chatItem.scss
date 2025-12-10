@@ -21,12 +21,19 @@
       font-weight: 600;
     }
   
-    .avatar {
+    .avatar-initials {
       width: 40px;
       height: 40px;
-      object-fit: cover;
       border-radius: 50%;
-      margin-right: 10px;
+      background: var(--color-primary);
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      letter-spacing: 0.5px;
     }
   
     .textContainer {
@@ -73,16 +80,20 @@
   
   body.dark .chatItem {
     border-bottom: 1px solid #333;
-    
+
+    .avatar-initials {
+      background: var(--color-primary-dark);
+    }
+
     &.seen {
       background-color: #1e1e1e;
     }
-  
+
     &.unseen {
       background-color: #2a2a2a;
       font-weight: 600;
     }
-  
+
     &:hover {
       background-color: #2f2f2f;
     }
