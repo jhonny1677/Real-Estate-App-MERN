@@ -155,7 +155,7 @@
 
         &.unread {
           background: #f8f9ff;
-          border-left: 3px solid #007bff;
+          border-left: 3px solid var(--color-primary);
 
           &:hover {
             background: #f0f6ff;
@@ -193,7 +193,7 @@
             .unread-dot {
               width: 6px;
               height: 6px;
-              background: #007bff;
+              background: var(--color-primary);
               border-radius: 50%;
               flex-shrink: 0;
             }
