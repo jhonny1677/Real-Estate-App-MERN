@@ -129,7 +129,7 @@
               transition: width 0.8s ease;
 
               &.recommended {
-                background: linear-gradient(90deg, #007bff, #17a2b8);
+                background: var(--color-primary);
               }
             }
           }

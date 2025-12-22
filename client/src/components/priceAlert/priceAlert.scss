@@ -143,7 +143,7 @@
         transition: border-color 0.3s;
 
         &:focus-within {
-          border-color: #007bff;
+          border-color: var(--color-primary);
         }
 
         .currency {
@@ -219,11 +219,11 @@
       }
 
       .create-btn {
-        background: #007bff;
+        background: var(--color-primary);
         color: white;
 
         &:hover:not(:disabled) {
-          background: #0056b3;
+          background: var(--color-primary-dark);
         }
 
         &:disabled {
@@ -283,7 +283,7 @@ body.dark {
           background: #333;
 
           &:focus-within {
-            border-color: #007bff;
+            border-color: var(--color-primary);
           }
 
           .currency {
