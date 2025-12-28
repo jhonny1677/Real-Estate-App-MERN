@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import apiRequest from '../../lib/apiRequest';
 import PropertyManagement from '../../components/admin/PropertyManagement/PropertyManagement';
 import UserManagement from '../../components/admin/UserManagement/UserManagement';
 import ContentManagement from '../../components/admin/ContentManagement/ContentManagement';
@@ -34,19 +35,13 @@ function AdminDashboard() {
 
   const fetchDashboardData = async () => {
     try {
-      // Mock data - replace with actual API calls
-      setDashboardData({
-        totalProperties: 2847,
-        totalUsers: 15432,
-        totalViews: 847392,
-        totalRevenue: 2847392,
-        recentActivities: [
-          { id: 1, type: 'property', action: 'New property listed', time: '2 mins ago', user: 'John Doe' },
-          { id: 2, type: 'user', action: 'New user registered', time: '5 mins ago', user: 'Jane Smith' },
-          { id: 3, type: 'sale', action: 'Property sold', time: '1 hour ago', user: 'Mike Johnson' },
-          { id: 4, type: 'inquiry', action: 'New inquiry received', time: '2 hours ago', user: 'Sarah Wilson' },
-        ]
-      });
+      const res = await apiRequest.get("/admin/stats");
+      setDashboardData(prev => ({
+        ...prev,
+        totalProperties: res.data.totalPosts,
+        totalUsers: res.data.totalUsers,
+        totalBookings: res.data.totalBookings,
+      }));
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
     }

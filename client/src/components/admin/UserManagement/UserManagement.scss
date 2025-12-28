@@ -39,7 +39,7 @@
           font-size: 2rem;
           width: 50px;
           height: 50px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: var(--color-primary);
           border-radius: 10px;
           display: flex;
           align-items: center;
@@ -161,7 +161,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--color-primary);
         color: white;
         border: none;
         padding: 12px 20px;
@@ -221,7 +221,7 @@
           
           &:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: var(--color-primary);
           }
         }
         
@@ -246,7 +246,7 @@
         
         &:focus {
           outline: none;
-          border-color: #667eea;
+          border-color: var(--color-primary);
         }
         
         @include sm {
@@ -546,9 +546,9 @@
         transition: all 0.2s ease;
         
         &:hover:not(:disabled) {
-          background: #667eea;
+          background: var(--color-primary);
           color: white;
-          border-color: #667eea;
+          border-color: var(--color-primary);
         }
         
         &:disabled {
@@ -660,7 +660,7 @@
               
               &:focus {
                 outline: none;
-                border-color: #667eea;
+                border-color: var(--color-primary);
               }
             }
             
@@ -697,7 +697,7 @@
         
         .btn-primary {
           padding: 10px 20px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: var(--color-primary);
           color: white;
           border: none;
           border-radius: 8px;
@@ -787,7 +787,7 @@ body.dark .user-management {
       color: #e1e8ed;
       
       &:focus {
-        border-color: #667eea;
+        border-color: var(--color-primary);
       }
     }
     
@@ -797,9 +797,9 @@ body.dark .user-management {
       color: #b0b8c1;
       
       &:hover:not(:disabled) {
-        background: #667eea;
+        background: var(--color-primary);
         color: white;
-        border-color: #667eea;
+        border-color: var(--color-primary);
       }
     }
   }
@@ -837,7 +837,7 @@ body.dark .user-management {
         color: #e1e8ed;
         
         &:focus {
-          border-color: #667eea;
+          border-color: var(--color-primary);
         }
       }
     }

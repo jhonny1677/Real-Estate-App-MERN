@@ -2,7 +2,7 @@
 
 .admin-dashboard {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: #F7F7F7;
   padding: 20px;
   
   .dashboard-header {
@@ -18,7 +18,7 @@
     h1 {
       font-size: 2rem;
       font-weight: 700;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--color-primary);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       margin: 0;
@@ -39,7 +39,7 @@
         height: 45px;
         border-radius: 50%;
         overflow: hidden;
-        border: 3px solid #667eea;
+        border: 3px solid var(--color-primary);
         
         img {
           width: 100%;
@@ -73,11 +73,11 @@
       
       &:hover {
         background: #f8f9ff;
-        color: #667eea;
+        color: var(--color-primary);
       }
       
       &.active {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--color-primary);
         color: white;
         box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
       }
@@ -126,7 +126,7 @@
           .metric-icon {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--color-primary);
             border-radius: 15px;
             display: flex;
             align-items: center;
@@ -258,10 +258,10 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 600;
-            color: #667eea;
+            color: var(--color-primary);
             
             &:hover {
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              background: var(--color-primary);
               color: white;
               transform: translateY(-2px);
               box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
@@ -299,7 +299,7 @@
 
 // Dark mode styles
 body.dark .admin-dashboard {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background: #121212;
   
   .dashboard-header,
   .dashboard-nav,
@@ -313,7 +313,7 @@ body.dark .admin-dashboard {
     
     &:hover {
       background: #3d3d5c;
-      color: #667eea;
+      color: var(--color-primary);
     }
   }
   
