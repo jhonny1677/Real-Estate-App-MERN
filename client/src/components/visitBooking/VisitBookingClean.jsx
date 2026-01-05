@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useVisits } from "../../context/VisitsContext";
 import PaymentForm from './PaymentForm';
+import apiRequest from "../../lib/apiRequest";
+import toast from "react-hot-toast";
 import "./visitBooking.scss";
 
 function VisitBooking({ property, agent, onClose, onBookingComplete }) {
@@ -19,6 +21,21 @@ function VisitBooking({ property, agent, onClose, onBookingComplete }) {
   const [step, setStep] = useState(1); // 1: Details, 2: Payment, 3: Confirmation
   const [isProcessing, setIsProcessing] = useState(false);
   const [bookingResult, setBookingResult] = useState(null);
+  const [bookedSlots, setBookedSlots] = useState([]); // "HH:MM" strings already taken
+
+  // Fetch already-booked slots whenever the date changes
+  useEffect(() => {
+    if (!selectedDate || !property?.id) return;
+    setBookedSlots([]);
+    apiRequest.get(`/bookings/slots/${property.id}?date=${selectedDate}`)
+      .then(res => {
+        const slots = res.data.bookedSlots || [];
+        setBookedSlots(slots);
+        // Clear selected time if it became booked
+        if (selectedTime && slots.includes(selectedTime)) setSelectedTime("");
+      })
+      .catch(() => setBookedSlots([]));
+  }, [selectedDate, property?.id]);
 
   // Visit pricing based on type
   const visitPricing = {
@@ -49,68 +66,56 @@ function VisitBooking({ property, agent, onClose, onBookingComplete }) {
   };
 
   const processPayment = async (stripeData = null) => {
-    setIsProcessing(true);
-    
+    // Generate confirmation number immediately — never fail on this
+    const confirmationNumber = `CONF_${Date.now()}`;
+    const txId = stripeData?.paymentIntent?.id || `TXN_${Date.now()}`;
+
+    // Try to persist booking to backend (non-blocking — UI won't fail if this fails)
     try {
-      let paymentResult;
-      
-      if (stripeData) {
-        // Real Stripe payment processing
-        paymentResult = {
-          success: true,
-          transactionId: stripeData.paymentIntent.id,
-          amount: visitFee,
-          currency: "USD",
-          paymentMethod: "stripe"
-        };
-      } else {
-        // Simulate payment for demo (fallback)
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        paymentResult = {
-          success: true,
-          transactionId: `TXN_${Date.now()}`,
-          amount: visitFee,
-          currency: "USD",
-          paymentMethod: "demo"
-        };
-      }
-      
-      if (paymentResult.success) {
-        // Create booking record
-        const booking = {
-          propertyId: property.id,
-          propertyTitle: property.title,
-          propertyAddress: property.address,
-          propertyImages: property.images,
-          agentId: agent?.id || "default",
-          agentName: agent?.name || "Property Agent",
-          agentPhone: agent?.phone || "",
-          agentEmail: agent?.email || "",
-          date: selectedDate,
-          time: selectedTime,
-          type: visitType,
-          fee: visitFee,
-          contactInfo,
-          notes,
-          paymentId: paymentResult.transactionId,
-          confirmationNumber: `CONF_${Date.now()}`
-        };
-        
-        // Add visit using visits context
-        const savedVisit = addVisit(booking);
-        setBookingResult(savedVisit);
-        setStep(3);
-        
-        if (onBookingComplete) {
-          onBookingComplete(savedVisit);
-        }
-      }
-    } catch (error) {
-      console.error('Payment failed:', error);
-      alert('Payment failed. Please try again.');
-    } finally {
-      setIsProcessing(false);
+      await apiRequest.post("/bookings/confirm", {
+        postId: property.id,
+        visitType,
+        date: selectedDate,
+        time: selectedTime,
+        fee: visitFee,
+        contactInfo,
+        notes,
+        paymentId: txId,
+        paymentMethod: stripeData ? "stripe" : "demo",
+      });
+    } catch (err) {
+      console.warn("Booking API unavailable, saved locally only:", err?.response?.data?.message || err.message);
     }
+
+    const booking = {
+      propertyId: property.id,
+      propertyTitle: property.title,
+      propertyAddress: property.address,
+      propertyImages: property.images,
+      agentName: agent?.name || "Property Agent",
+      agentPhone: agent?.phone || "",
+      agentEmail: agent?.email || "",
+      date: selectedDate,
+      time: selectedTime,
+      type: visitType,
+      fee: visitFee,
+      contactInfo,
+      notes,
+      paymentId: txId,
+      confirmationNumber,
+    };
+
+    try {
+      addVisit(booking);
+    } catch (err) {
+      console.warn("Could not save visit locally:", err);
+    }
+
+    setBookingResult(booking);
+    setStep(3);
+    toast.success(`Visit booked! Confirmation: ${confirmationNumber}`, { duration: 6000 });
+
+    if (onBookingComplete) onBookingComplete(booking);
   };
 
   const renderStep1 = () => (
@@ -211,15 +216,18 @@ function VisitBooking({ property, agent, onClose, onBookingComplete }) {
             required
           >
             <option value="">Select a time</option>
-            {timeSlots.map(time => (
-              <option key={time} value={time}>
-                {new Date(`2000-01-01T${time}`).toLocaleTimeString("en-US", { 
-                  hour: '2-digit', 
-                  minute: '2-digit',
-                  hour12: true 
-                })}
-              </option>
-            ))}
+            {timeSlots.map(time => {
+              const isBooked = bookedSlots.includes(time);
+              return (
+                <option key={time} value={time} disabled={isBooked}>
+                  {new Date(`2000-01-01T${time}`).toLocaleTimeString("en-US", {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                  })}{isBooked ? " — Booked" : ""}
+                </option>
+              );
+            })}
           </select>
         </div>
       </div>
