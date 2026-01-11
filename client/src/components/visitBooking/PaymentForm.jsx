@@ -103,11 +103,10 @@ function PaymentForm({ amount, onPaymentSuccess, contactInfo, isProcessing, setI
         }
       };
 
-      onPaymentSuccess(paymentResult);
+      await onPaymentSuccess(paymentResult);
 
     } catch (error) {
       setErrors({ general: 'Payment failed. Please try again.' });
-    } finally {
       setIsProcessing(false);
     }
   };
