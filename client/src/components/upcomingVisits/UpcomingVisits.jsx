@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useVisits } from "../../context/VisitsContext";
 import { useCurrency } from "../../context/CurrencyContext";
+import { useNavigate } from "react-router-dom";
 import "./upcomingVisits.scss";
 
 function UpcomingVisits() {
   const { upcomingVisits, pastVisits, cancelVisit, rescheduleVisit, getVisitStats } = useVisits();
   const { formatPrice } = useCurrency();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("upcoming");
   const [showRescheduleModal, setShowRescheduleModal] = useState(null);
   const [rescheduleData, setRescheduleData] = useState({ date: "", time: "" });
@@ -215,6 +217,9 @@ function UpcomingVisits() {
               <h3>No Upcoming Visits</h3>
               <p>You don't have any scheduled property visits yet.</p>
               <p>Browse properties and book a visit to get started!</p>
+              <button className="browse-btn" onClick={() => navigate("/list")}>
+                Browse Properties
+              </button>
             </div>
           )
         ) : (
