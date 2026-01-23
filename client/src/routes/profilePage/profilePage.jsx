@@ -1,6 +1,6 @@
-import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
 import UpcomingVisits from "../../components/upcomingVisits/UpcomingVisits";
+import Avatar from "../../components/Avatar/Avatar";
 import "./profilePage.scss";
 import apiRequest from "../../lib/apiRequest";
 import { Await, Link, useLoaderData, useNavigate } from "react-router-dom";
@@ -34,15 +34,12 @@ function ProfilePage() {
             </Link>
           </div>
           <div className="info">
-            <span>
-              Avatar:
-             {/* <img src={currentUser.avatar || "noavatar.jpg"} alt="" /> */}
-            </span>
-            <span>
-              Username: <b>{currentUser.username}</b>
-            </span>
-            <span>
-              E-mail: <b>{currentUser.email}</b>
+            <span style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <Avatar src={currentUser.avatar} username={currentUser.username} size={56} />
+              <div>
+                <b style={{ display: "block", fontSize: "1.1rem" }}>{currentUser.username}</b>
+                <span style={{ color: "#888", fontSize: "0.875rem" }}>{currentUser.email}</span>
+              </div>
             </span>
             <button onClick={handleLogout}>Logout</button>
           </div>
@@ -80,14 +77,10 @@ function ProfilePage() {
       </div>
       <div className="chatContainer">
         <div className="wrapper">
-          <Suspense fallback={<p>Loading...</p>}>
-            <Await
-              resolve={data.chatResponse}
-              errorElement={<p>Error loading chats!</p>}
-            >
-              {(chatResponse) => <Chat chats={chatResponse.data}/>}
-            </Await>
-          </Suspense>
+          <div className="title"><h1>Your Chats</h1></div>
+          <p style={{ color: "#888", fontSize: "0.9rem" }}>
+            Open any property listing and click "Send a Message" to start a conversation, or go to <Link to="/chats">Chats</Link>.
+          </p>
         </div>
       </div>
     </div>

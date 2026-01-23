@@ -88,3 +88,17 @@
     }
   }
 }
+
+body.dark .profilePage {
+  .details .wrapper {
+    h1 { color: #f0f0f0; }
+    color: #e0e0e0;
+
+    .title button { background-color: #e6b52d; color: #1a1a2e; }
+    .info button { background-color: teal; }
+  }
+
+  .chatContainer {
+    background-color: #1a1a2e;
+  }
+}
