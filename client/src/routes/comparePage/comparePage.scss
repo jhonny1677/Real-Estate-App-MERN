@@ -43,11 +43,11 @@
       }
 
       .export-btn {
-        background: #007bff;
+        background: var(--color-primary);
         color: white;
 
         &:hover {
-          background: #0056b3;
+          background: var(--color-primary-dark);
           transform: translateY(-2px);
         }
 
@@ -326,11 +326,11 @@
     }
 
     .view-btn {
-      background: #007bff;
+      background: var(--color-primary);
       color: white;
 
       &:hover {
-        background: #0056b3;
+        background: var(--color-primary-dark);
       }
     }
 

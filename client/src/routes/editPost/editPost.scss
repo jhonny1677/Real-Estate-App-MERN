@@ -44,7 +44,7 @@
         
         &:focus {
           outline: none;
-          border-color: #007bff;
+          border-color: var(--color-primary);
           box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
         }
         
@@ -70,7 +70,7 @@
       .update-btn {
         align-self: center;
         padding: 16px 32px;
-        background: linear-gradient(135deg, #007bff, #0056b3);
+        background: var(--color-primary);
         color: white;
         border: none;
         border-radius: 8px;
@@ -83,7 +83,7 @@
         &:hover {
           transform: translateY(-2px);
           box-shadow: 0 6px 18px rgba(0, 123, 255, 0.4);
-          background: linear-gradient(135deg, #0056b3, #003d82);
+          background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary-dark));
         }
         
         &:active {
@@ -110,7 +110,7 @@
         border-color: #404040;
         
         &:focus {
-          border-color: #007bff;
+          border-color: var(--color-primary);
           box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
         }
         
