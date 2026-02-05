@@ -1,7 +1,7 @@
 @import "../../responsive.scss";
 
 .weather-container {
-  padding: 30px;
+  padding: 20px;
   background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
   border-radius: 20px;
   color: white;
@@ -9,16 +9,16 @@
   box-shadow: 0 8px 32px rgba(116, 185, 255, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  margin: 20px 0;
+  margin: 0;
 
   @include md {
-    padding: 25px;
-    margin: 15px 0;
+    padding: 16px;
+    margin: 0;
   }
 
   @include sm {
-    padding: 20px;
-    border-radius: 16px;
+    padding: 14px;
+    border-radius: 14px;
   }
 
   .weather-loading, .weather-error {
@@ -37,24 +37,24 @@
   }
 
   .current-weather {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     background: rgba(255, 255, 255, 0.1);
-    padding: 25px;
+    padding: 18px;
     border-radius: 16px;
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.2);
 
     @include md {
-      padding: 20px;
-      margin-bottom: 35px;
+      padding: 16px;
+      margin-bottom: 16px;
     }
 
     .weather-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 25px;
-      padding-bottom: 15px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
       @include sm {
@@ -126,18 +126,18 @@
           text-align: center;
           
           .temperature {
-            font-size: 3.5rem;
+            font-size: 3rem; // ~48px
             font-weight: 800;
             line-height: 1;
             display: block;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
             @include md {
-              font-size: 3rem;
+              font-size: 2.5rem;
             }
 
             @include sm {
-              font-size: 2.5rem;
+              font-size: 2rem;
             }
           }
 
@@ -205,58 +205,46 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 18px;
+            padding: 10px 14px;
             background: rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
+            border-radius: 10px;
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
-            min-height: 60px;
 
             &:hover {
               background: rgba(255, 255, 255, 0.25);
-              transform: translateY(-2px);
-              box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+              transform: translateY(-1px);
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             }
 
             @include md {
-              padding: 12px 15px;
-              min-height: 55px;
+              padding: 8px 12px;
             }
 
             .label {
-              font-size: 0.9rem;
+              font-size: 13px;
               opacity: 0.95;
               font-weight: 500;
               display: flex;
               align-items: center;
-              gap: 8px;
-
-              @include md {
-                font-size: 0.85rem;
-              }
+              gap: 6px;
             }
 
             .value {
               font-weight: 700;
-              font-size: 1.1rem;
+              font-size: 13px;
               display: flex;
               align-items: baseline;
-              gap: 3px;
-              
-              .number {
-                font-weight: 700;
-              }
-              
+              gap: 2px;
+
+              .number { font-weight: 700; }
+
               .unit {
-                font-size: 0.85rem;
+                font-size: 11px;
                 font-weight: 500;
                 opacity: 0.75;
                 letter-spacing: 0.3px;
-              }
-
-              @include md {
-                font-size: 1rem;
               }
             }
           }
@@ -266,242 +254,167 @@
   }
 
   .forecast-section {
-    margin-bottom: 35px;
+    margin-bottom: 20px;
     background: rgba(255, 255, 255, 0.1);
-    padding: 25px;
+    padding: 18px;
     border-radius: 16px;
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.2);
 
     @include md {
-      padding: 20px;
-      margin-bottom: 30px;
+      padding: 14px;
+      margin-bottom: 16px;
     }
 
     h4 {
-      margin: 0 0 20px 0;
-      font-size: 1.4rem;
+      margin: 0 0 14px 0;
+      font-size: 1.1rem;
       font-weight: 700;
       text-align: center;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-
-      @include md {
-        font-size: 1.2rem;
-      }
+      gap: 8px;
     }
 
     .forecast-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 15px;
-
-      @include lg {
-        grid-template-columns: repeat(4, 1fr);
-      }
-
-      @include md {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-      }
-
-      @include sm {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 8px;
 
       .forecast-day {
+        flex: 1;
+        min-width: 0;
         background: rgba(255, 255, 255, 0.15);
-        border-radius: 16px;
-        padding: 20px 15px;
+        border-radius: 10px;
+        padding: 10px 8px;
         text-align: center;
         backdrop-filter: blur(15px);
         transition: all 0.3s ease;
         border: 1px solid rgba(255, 255, 255, 0.2);
-        min-height: 160px;
+        max-height: 120px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
 
         &:hover {
-          transform: translateY(-4px);
+          transform: translateY(-2px);
           background: rgba(255, 255, 255, 0.25);
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        @include md {
-          padding: 15px 12px;
-          min-height: 140px;
-        }
-
-        @include sm {
-          padding: 12px 10px;
-          min-height: 120px;
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
         }
 
         .day-name {
-          font-size: 0.9rem;
+          font-size: 11px;
           font-weight: 700;
-          margin-bottom: 10px;
+          margin-bottom: 2px;
           opacity: 0.95;
           text-transform: uppercase;
-          letter-spacing: 0.5px;
-
-          @include md {
-            font-size: 0.85rem;
-          }
+          letter-spacing: 0.4px;
         }
 
         .forecast-icon {
-          width: 50px;
-          height: 50px;
-          margin: 10px auto;
-          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
-
-          @include md {
-            width: 45px;
-            height: 45px;
-          }
-
-          @include sm {
-            width: 40px;
-            height: 40px;
-          }
+          width: 24px;
+          height: 24px;
+          margin: 2px auto;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
         }
 
         .forecast-temps {
           display: flex;
           justify-content: center;
-          gap: 10px;
-          margin: 10px 0;
+          gap: 4px;
+          margin: 2px 0;
           align-items: baseline;
 
           .max-temp {
             font-weight: 700;
-            font-size: 1.1rem;
-
-            @include md {
-              font-size: 1rem;
-            }
+            font-size: 14px;
           }
 
           .min-temp {
-            opacity: 0.8;
-            font-size: 0.95rem;
+            opacity: 0.75;
+            font-size: 12px;
             font-weight: 500;
-
-            @include md {
-              font-size: 0.9rem;
-            }
           }
         }
 
         .forecast-condition {
-          font-size: 0.8rem;
-          opacity: 0.9;
+          font-size: 11px;
+          opacity: 0.85;
           font-weight: 500;
           text-transform: capitalize;
-
-          @include md {
-            font-size: 0.75rem;
-          }
+          line-height: 1.2;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
     }
   }
 
   .weather-insights {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     background: rgba(255, 255, 255, 0.1);
-    padding: 25px;
+    padding: 16px;
     border-radius: 16px;
     backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.2);
 
     @include md {
-      padding: 20px;
-      margin-bottom: 25px;
+      padding: 14px;
+      margin-bottom: 16px;
     }
 
     h4 {
-      margin: 0 0 20px 0;
-      font-size: 1.3rem;
+      margin: 0 0 12px 0;
+      font-size: 1.05rem;
       font-weight: 700;
       text-align: center;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-
-      @include md {
-        font-size: 1.1rem;
-      }
+      gap: 8px;
     }
 
     .insights-list {
       display: grid;
-      gap: 12px;
+      gap: 8px;
 
       .insight-item {
         display: flex;
         align-items: center;
-        gap: 15px;
-        padding: 18px 20px;
+        gap: 12px;
+        padding: 10px 14px;
         background: rgba(255, 255, 255, 0.15);
-        border-radius: 12px;
+        border-radius: 10px;
         backdrop-filter: blur(15px);
         border: 1px solid rgba(255, 255, 255, 0.2);
         transition: all 0.3s ease;
-        min-height: 60px;
 
         &:hover {
           background: rgba(255, 255, 255, 0.25);
-          transform: translateX(5px);
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+          transform: translateX(4px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         &.positive {
           background: rgba(46, 204, 113, 0.25);
           border-color: rgba(46, 204, 113, 0.4);
-
-          &:hover {
-            background: rgba(46, 204, 113, 0.35);
-          }
+          &:hover { background: rgba(46, 204, 113, 0.35); }
         }
 
         &.negative {
           background: rgba(231, 76, 60, 0.25);
           border-color: rgba(231, 76, 60, 0.4);
-
-          &:hover {
-            background: rgba(231, 76, 60, 0.35);
-          }
+          &:hover { background: rgba(231, 76, 60, 0.35); }
         }
 
-        @include md {
-          padding: 15px 18px;
-          min-height: 55px;
-        }
-
-        .insight-icon {
-          font-size: 1.2rem;
-          flex-shrink: 0;
-
-          @include md {
-            font-size: 1.1rem;
-          }
-        }
+        .insight-icon { font-size: 1rem; flex-shrink: 0; }
 
         .insight-text {
-          font-size: 1rem;
-          line-height: 1.5;
+          font-size: 0.875rem;
+          line-height: 1.4;
           font-weight: 500;
-
-          @include md {
-            font-size: 0.9rem;
-          }
         }
       }
     }
