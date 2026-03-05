@@ -1,5 +1,29 @@
 @import "../../responsive.scss";
 
+// ── Theme tokens (light defaults) ──────────────────────────────────────────
+:root {
+  --hp-bg:               #F7F7F7;
+  --hp-img-container-bg: #fcf5f3;
+  --hp-subtitle-color:   #555555;
+  --hp-stat-number:      #1a1a2e;
+  --hp-stat-label:       #777777;
+  --hp-searchbar-bg:     #ffffff;
+  --hp-searchbar-border: #DDDDDD;
+  --hp-searchbar-shadow: rgba(0, 0, 0, 0.08);
+}
+
+// ── Dark-mode overrides ─────────────────────────────────────────────────────
+body.dark {
+  --hp-bg:               #121212;
+  --hp-img-container-bg: #1e1e1e;
+  --hp-subtitle-color:   #aaaaaa;
+  --hp-stat-number:      #f0f0f0;
+  --hp-stat-label:       #888888;
+  --hp-searchbar-bg:     #2a2a3a;
+  --hp-searchbar-border: #3a3a4a;
+  --hp-searchbar-shadow: rgba(0, 0, 0, 0.3);
+}
+
 .homePage {
   display: flex;
   min-height: calc(100vh - 75px);
@@ -7,7 +31,8 @@
   font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
   overflow-y: auto;
-  
+  background-color: var(--hp-bg);
+
   // 🌟 FLOATING ELEMENTS
   .floating-elements {
     position: absolute;
@@ -89,126 +114,6 @@
     }
   }
   
-  // ✨ PARTICLE SYSTEM
-  .particles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 5;
-    
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.8;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-      animation-timing-function: ease-in-out;
-      
-      // 🔴 Red particles
-      &.particle-1 { width: 16px; height: 16px; left: 10%; top: 20%; background: linear-gradient(45deg, #e74c3c, #c0392b); animation: particleFloat 12s linear infinite; animation-delay: 0s; }
-      &.particle-2 { width: 12px; height: 12px; left: 25%; top: 15%; background: radial-gradient(circle, #e74c3c, #d63031); animation: particleFloat 15s linear infinite; animation-delay: 1s; }
-      &.particle-3 { width: 20px; height: 20px; left: 40%; top: 30%; background: linear-gradient(135deg, #fd79a8, #e84393); animation: particleFloat 10s linear infinite; animation-delay: 2s; }
-      &.particle-4 { width: 14px; height: 14px; left: 60%; top: 25%; background: linear-gradient(45deg, #ff6b6b, #ee5a52); animation: particleFloat 14s linear infinite; animation-delay: 0.5s; }
-      
-      // 🔵 Blue particles  
-      &.particle-5 { width: 18px; height: 18px; left: 75%; top: 10%; background: linear-gradient(45deg, #3498db, #2980b9); animation: particleFloat 11s linear infinite; animation-delay: 1.5s; }
-      &.particle-6 { width: 22px; height: 22px; left: 85%; top: 40%; background: radial-gradient(circle, #74b9ff, #0984e3); animation: particleFloat 16s linear infinite; animation-delay: 3s; }
-      &.particle-7 { width: 15px; height: 15px; left: 5%; top: 60%; background: linear-gradient(135deg, #00cec9, #00b894); animation: particleFloat 13s linear infinite; animation-delay: 2.5s; }
-      &.particle-8 { width: 13px; height: 13px; left: 20%; top: 80%; background: linear-gradient(45deg, #55a3ff, #2e86de); animation: particleFloat 9s linear infinite; animation-delay: 4s; }
-      
-      // 🟡 Yellow/Orange particles
-      &.particle-9 { width: 17px; height: 17px; left: 35%; top: 70%; background: linear-gradient(45deg, #f39c12, #e67e22); animation: particleFloat 17s linear infinite; animation-delay: 1.2s; }
-      &.particle-10 { width: 19px; height: 19px; left: 50%; top: 85%; background: radial-gradient(circle, #fdcb6e, #e17055); animation: particleFloat 12s linear infinite; animation-delay: 3.5s; }
-      &.particle-11 { width: 16px; height: 16px; left: 65%; top: 75%; background: linear-gradient(135deg, #ffeaa7, #fab1a0); animation: particleFloat 14s linear infinite; animation-delay: 0.8s; }
-      &.particle-12 { width: 21px; height: 21px; left: 80%; top: 90%; background: linear-gradient(45deg, #ff7675, #fd79a8); animation: particleFloat 11s linear infinite; animation-delay: 2.2s; }
-      
-      // 🟢 Green particles
-      &.particle-13 { width: 14px; height: 14px; left: 90%; top: 60%; background: linear-gradient(45deg, #27ae60, #229954); animation: particleFloat 15s linear infinite; animation-delay: 4.5s; }
-      &.particle-14 { width: 18px; height: 18px; left: 15%; top: 45%; background: radial-gradient(circle, #00b894, #00cec9); animation: particleFloat 10s linear infinite; animation-delay: 1.8s; }
-      &.particle-15 { width: 15px; height: 15px; left: 30%; top: 55%; background: linear-gradient(135deg, #a29bfe, #6c5ce7); animation: particleFloat 13s linear infinite; animation-delay: 3.2s; }
-      
-      // 🟣 Purple particles
-      &.particle-16 { width: 20px; height: 20px; left: 45%; top: 5%; background: linear-gradient(45deg, #9b59b6, #8e44ad); animation: particleFloat 18s linear infinite; animation-delay: 2.8s; }
-      &.particle-17 { width: 12px; height: 12px; left: 70%; top: 50%; background: radial-gradient(circle, #e17055, #d63031); animation: particleFloat 12s linear infinite; animation-delay: 4.2s; }
-      &.particle-18 { width: 16px; height: 16px; left: 55%; top: 95%; background: linear-gradient(135deg, #81ecec, #00b894); animation: particleFloat 16s linear infinite; animation-delay: 1.6s; }
-      &.particle-19 { width: 17px; height: 17px; left: 85%; top: 20%; background: linear-gradient(45deg, #00cec9, #55a3ff); animation: particleFloat 14s linear infinite; animation-delay: 5s; }
-      &.particle-20 { width: 19px; height: 19px; left: 12%; top: 75%; background: radial-gradient(circle, #a29bfe, #fd79a8); animation: particleFloat 11s linear infinite; animation-delay: 3.8s; }
-    }
-  }
-  
-  // 🌊 GENTLE WAVES
-  .gentle-waves {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: -1;
-    overflow: hidden;
-    
-    .wave {
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(52, 152, 219, 0.05), transparent);
-      border-radius: 50%;
-      
-      &.wave-1 {
-        top: -50%;
-        left: -50%;
-        animation: gentleWave 20s ease-in-out infinite;
-        animation-delay: 0s;
-      }
-      
-      &.wave-2 {
-        top: -50%;
-        right: -50%;
-        animation: gentleWave 25s ease-in-out infinite reverse;
-        animation-delay: -5s;
-        background: linear-gradient(45deg, transparent, rgba(155, 89, 182, 0.03), transparent);
-      }
-      
-      &.wave-3 {
-        bottom: -50%;
-        left: -25%;
-        animation: gentleWave 30s ease-in-out infinite;
-        animation-delay: -10s;
-        background: linear-gradient(45deg, transparent, rgba(39, 174, 96, 0.04), transparent);
-      }
-    }
-  }
-  
-  // 🫧 FLOATING BUBBLES
-  .floating-bubbles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 10;
-    
-    .bubble {
-      position: absolute;
-      background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(2px);
-      
-      &.bubble-1 { width: 60px; height: 60px; left: 8%; top: 20%; animation: bubbleFloat 15s ease-in-out infinite; animation-delay: 0s; }
-      &.bubble-2 { width: 40px; height: 40px; left: 25%; top: 60%; animation: bubbleFloat 18s ease-in-out infinite; animation-delay: 2s; }
-      &.bubble-3 { width: 80px; height: 80px; right: 15%; top: 30%; animation: bubbleFloat 12s ease-in-out infinite; animation-delay: 4s; }
-      &.bubble-4 { width: 35px; height: 35px; right: 30%; top: 70%; animation: bubbleFloat 20s ease-in-out infinite; animation-delay: 1s; }
-      &.bubble-5 { width: 50px; height: 50px; left: 40%; top: 15%; animation: bubbleFloat 16s ease-in-out infinite; animation-delay: 6s; }
-      &.bubble-6 { width: 25px; height: 25px; left: 70%; top: 80%; animation: bubbleFloat 14s ease-in-out infinite; animation-delay: 3s; }
-      &.bubble-7 { width: 45px; height: 45px; left: 15%; top: 85%; animation: bubbleFloat 22s ease-in-out infinite; animation-delay: 8s; }
-      &.bubble-8 { width: 55px; height: 55px; right: 8%; top: 55%; animation: bubbleFloat 17s ease-in-out infinite; animation-delay: 5s; }
-    }
-  }
-
   .textContainer {
     flex: 3;
     z-index: 100;
@@ -251,8 +156,32 @@
 
       .subtitle {
         font-size: 18px;
-        color: #bbb;
+        color: var(--hp-subtitle-color);
         max-width: 500px;
+      }
+
+      .stat-cards {
+        display: flex;
+        gap: 28px;
+
+        .stat-card {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+
+          .stat-number {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--hp-stat-number);
+          }
+
+          .stat-label {
+            font-size: 0.8rem;
+            color: var(--hp-stat-label);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+          }
+        }
       }
 
       .boxes {
@@ -281,7 +210,7 @@
 
   .imgContainer {
     flex: 2;
-    background-color: #fcf5f3;
+    background-color: var(--hp-img-container-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -300,9 +229,8 @@
       align-items: center;
 
       img {
-        width: 100%;
-        max-width: 180px;
-        height: auto;
+        width: 180px;
+        height: 130px;
         border-radius: 12px;
         object-fit: cover;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -313,22 +241,18 @@
         }
       }
 
-      .circle {
-        border-radius: 50%;
-      }
     }
   }
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 10%;
-    left: 10%;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, #007BFF33, transparent);
-    z-index: -2;
-    filter: blur(80px);
+  .searchBar {
+    background: var(--hp-searchbar-bg);
+    box-shadow: 0 2px 12px var(--hp-searchbar-shadow);
+  }
+
+  .searchBar form input {
+    border: 1px solid var(--hp-searchbar-border);
+    padding: 12px 16px;
+    border-radius: 8px;
   }
 }
 
@@ -348,35 +272,17 @@ body.dark .homePage {
     color: #f1f1f1;
   }
 
-  .imgContainer {
-    background-color: #1e1e1e;
-
-    .imageGrid img {
-      filter: brightness(0.9) contrast(1.1);
-    }
+  .imgContainer .imageGrid img {
+    filter: brightness(0.9) contrast(1.1);
   }
-  
+
   .floating-elements .floating-icon {
     opacity: 0.8;
     filter: brightness(1.2);
   }
-  
-  .particles .particle {
-    background: linear-gradient(45deg, #64b5f6, #ef5350, #ffb74d, #66bb6a);
-    opacity: 0.6;
-  }
 }
 
 // 🎨 AMAZING FLOATING ANIMATIONS
-@keyframes floatUpDown {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
 @keyframes floatLeftRight {
   0%, 100% {
     transform: translateX(0px);
@@ -407,32 +313,12 @@ body.dark .homePage {
   }
 }
 
-@keyframes heartFloat {
-  0%, 100% {
-    transform: scale(1) translateY(0px);
-  }
-  50% {
-    transform: scale(1.2) translateY(-10px);
-  }
-}
-
 @keyframes glow {
   0%, 100% {
     text-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
   }
   50% {
     text-shadow: 0 0 20px rgba(231, 76, 60, 0.8), 0 0 30px rgba(231, 76, 60, 0.6);
-  }
-}
-
-@keyframes twinkle {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.3);
   }
 }
 
@@ -444,29 +330,6 @@ body.dark .homePage {
   50% {
     transform: scale(1.1);
     opacity: 0.9;
-  }
-}
-
-@keyframes particleFloat {
-  0% {
-    transform: translateY(100vh) rotate(0deg) scale(0.5);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.9;
-    transform: translateY(90vh) rotate(36deg) scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(50vh) rotate(180deg) scale(1.2);
-  }
-  90% {
-    opacity: 0.8;
-    transform: translateY(10vh) rotate(324deg) scale(0.8);
-  }
-  100% {
-    transform: translateY(-10vh) rotate(360deg) scale(0.3);
-    opacity: 0;
   }
 }
 

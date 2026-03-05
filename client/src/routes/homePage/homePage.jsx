@@ -13,38 +13,6 @@ function HomePage() {
   return (
     <div className="homePage" key={i18n.language}>
       <ScrollAnimations />
-      {/* Floating Elements */}
-      <div className="floating-elements">
-        <div className="floating-icon house-icon">🏠</div>
-        <div className="floating-icon key-icon">🗝️</div>
-        <div className="floating-icon building-icon">🏢</div>
-        <div className="floating-icon heart-icon">❤️</div>
-        <div className="floating-icon star-icon">⭐</div>
-        <div className="floating-icon leaf-icon">🍃</div>
-        <div className="floating-icon dream-icon">💭</div>
-        <div className="floating-icon peace-icon">🕊️</div>
-      </div>
-      
-      {/* Particle System */}
-      <div className="particles">
-        {[...Array(20)].map((_, i) => (
-          <div key={i} className={`particle particle-${i + 1}`}></div>
-        ))}
-      </div>
-
-      {/* Gentle Waves Background */}
-      <div className="gentle-waves">
-        <div className="wave wave-1"></div>
-        <div className="wave wave-2"></div>
-        <div className="wave wave-3"></div>
-      </div>
-
-      {/* Floating Bubbles */}
-      <div className="floating-bubbles">
-        {[...Array(8)].map((_, i) => (
-          <div key={i} className={`bubble bubble-${i + 1}`}></div>
-        ))}
-      </div>
       <div className="textContainer">
         <div className="wrapper">
           <h1 className="title fade-up">{t('homepage.title')}</h1>
@@ -53,6 +21,20 @@ function HomePage() {
           </p>
           <div className="fade-up">
             <SearchBar />
+          </div>
+          <div className="stat-cards fade-up">
+            <div className="stat-card">
+              <span className="stat-number">2000+</span>
+              <span className="stat-label">Properties</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-number">500+</span>
+              <span className="stat-label">Agents</span>
+            </div>
+            <div className="stat-card">
+              <span className="stat-number">10K+</span>
+              <span className="stat-label">Happy Clients</span>
+            </div>
           </div>
           <div className="boxes stagger-children">
             <div className="box enhanced-hover">
