@@ -20,7 +20,7 @@ function About() {
 
   const handleScheduleConsultation = () => {
     const subject = encodeURIComponent('Real Estate Consultation Request');
-    const body = encodeURIComponent(`Hello EstateEase Team,
+    const body = encodeURIComponent(`Hello EstateHub Team,
 
 I would like to schedule a consultation to discuss my real estate needs.
 
@@ -35,7 +35,7 @@ Services I'm interested in:
 
 Best regards`);
     
-    window.open(`mailto:consultation@estateease.com?subject=${subject}&body=${body}`, '_blank');
+    window.open(`mailto:consultation@estatehub.com?subject=${subject}&body=${body}`, '_blank');
   };
 
   const companyStats = [
@@ -51,7 +51,7 @@ Best regards`);
     {
       year: "2012",
       title: "Company Founded",
-      description: "EstateEase was founded with a vision to revolutionize the real estate industry through technology and exceptional service."
+      description: "EstateHub was founded with a vision to revolutionize the real estate industry through technology and exceptional service."
     },
     {
       year: "2014",
@@ -190,7 +190,7 @@ Best regards`);
           <div className="hero-text">
             <h1>Redefining Real Estate Excellence</h1>
             <p className="hero-subtitle">
-              For over a decade, EstateEase has been the trusted partner for thousands of families, 
+              For over a decade, EstateHub has been the trusted partner for thousands of families, 
               investors, and businesses in their real estate journey. We combine cutting-edge technology 
               with personalized service to deliver exceptional results.
             </p>
@@ -267,7 +267,7 @@ Best regards`);
             {activeTab === 'story' && (
               <div className="story-content">
                 <div className="story-intro">
-                  <h2>The EstateEase Journey</h2>
+                  <h2>The EstateHub Journey</h2>
                   <p>
                     What started as a simple idea to make real estate more accessible has evolved into 
                     a comprehensive platform that serves millions of users worldwide. Our journey is 
@@ -317,7 +317,7 @@ Best regards`);
                 <h2>Meet Our Leadership Team</h2>
                 <p className="leadership-intro">
                   Our executive team brings together decades of experience in real estate, 
-                  technology, and business leadership. Together, they guide EstateEase's 
+                  technology, and business leadership. Together, they guide EstateHub's 
                   strategic vision and day-to-day operations.
                 </p>
                 <div className="leadership-grid">
@@ -430,7 +430,7 @@ Best regards`);
       {/* Call to Action */}
       <section className="cta-section">
         <div className="cta-content">
-          <h2>Ready to Experience the EstateEase Difference?</h2>
+          <h2>Ready to Experience the EstateHub Difference?</h2>
           <p>
             Join thousands of satisfied clients who have trusted us with their real estate needs. 
             Whether you're buying, selling, or investing, we're here to make your journey smooth and successful.
