@@ -33,15 +33,30 @@
     padding: 15px;
     margin: 0;
     min-height: calc(100vh - 60px);
-    
+
     @include md {
       min-height: calc(100vh - 55px);
       padding: 12px;
     }
-    
+
     @include sm {
       min-height: calc(100vh - 50px);
       padding: 10px;
+    }
+  }
+
+  .page-transition {
+    animation: pageEnter 0.22s ease-out forwards;
+  }
+
+  @keyframes pageEnter {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
