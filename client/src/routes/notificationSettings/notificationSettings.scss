@@ -88,7 +88,7 @@
         }
 
         .permission-btn {
-          background: #007bff;
+          background: var(--color-primary);
           color: white;
           border: none;
           padding: 8px 16px;
@@ -99,7 +99,7 @@
           transition: all 0.3s;
 
           &:hover {
-            background: #0056b3;
+            background: var(--color-primary-dark);
           }
         }
 
@@ -157,7 +157,7 @@
 
               &:focus {
                 outline: none;
-                border-color: #007bff;
+                border-color: var(--color-primary);
               }
             }
 
@@ -285,7 +285,7 @@
           }
 
           input[type="checkbox"]:checked + .toggle-slider {
-            background: #007bff;
+            background: var(--color-primary);
 
             &::after {
               transform: translateX(26px);
@@ -395,7 +395,7 @@ body.dark {
               color: #fff;
 
               &:focus {
-                border-color: #007bff;
+                border-color: var(--color-primary);
               }
             }
           }

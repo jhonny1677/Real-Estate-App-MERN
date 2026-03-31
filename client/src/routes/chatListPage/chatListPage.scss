@@ -1,5 +1,9 @@
 .chatListPage {
-    padding: 20px;
-    height: calc(100vh - 80px); // assuming navbar height
-  }
-  
+  padding: 20px;
+  height: calc(100vh - 80px);
+  background: #F7F7F7;
+}
+
+body.dark .chatListPage {
+  background: #121212;
+}
