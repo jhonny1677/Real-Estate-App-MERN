@@ -1,5 +1,47 @@
 @import "../../responsive.scss";
 
+:root {
+  --nav-bg:          #FFFFFF;
+  --nav-border:      #f0f0f0;
+  --nav-shadow:      rgba(0, 0, 0, 0.06);
+  --nav-divider:     #e5e5e5;
+}
+
+body.dark {
+  --nav-bg:          #0f0f19;
+  --nav-border:      #2a2a3a;
+  --nav-shadow:      rgba(0, 0, 0, 0.3);
+  --nav-divider:     #2a2a3a;
+}
+
+// ── CSS tooltip ─────────────────────────────────────────────────────────────
+[data-tooltip] {
+  position: relative;
+
+  &::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: calc(100% + 7px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a2e;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 9px;
+    border-radius: 5px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 3000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  &:hover::after { opacity: 1; }
+}
+
+// ── Navbar ───────────────────────────────────────────────────────────────────
 .navbar {
   height: 68px;
   display: flex;
@@ -12,12 +54,11 @@
   width: 100%;
   z-index: 1000;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid #f0f0f0;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  box-shadow: 0 2px 8px var(--nav-shadow);
 
+  // ── Left: logo + nav links ─────────────────────────────────────────────
   .left {
     display: flex;
     align-items: center;
@@ -29,9 +70,7 @@
       gap: 0.5rem;
       text-decoration: none;
 
-      .logo-icon {
-        font-size: 1.4rem;
-      }
+      .logo-icon { font-size: 1.4rem; }
 
       .logo-text {
         font-size: 1.2rem;
@@ -50,18 +89,37 @@
       border-bottom: 2px solid transparent;
       transition: color 0.2s, border-color 0.2s;
 
-      &:hover {
-        color: #1a1a2e;
-        border-bottom-color: #1a1a2e;
-      }
+      &:hover { color: #1a1a2e; border-bottom-color: #1a1a2e; }
     }
   }
 
+  // ── Right: two icon groups ──────────────────────────────────────────────
   .right {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 12px;
 
+    // ── Group divider ──
+    .group-divider {
+      width: 1px;
+      height: 22px;
+      background: var(--nav-divider);
+      flex-shrink: 0;
+    }
+
+    // ── Icon groups ──
+    .icon-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      > a {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    // ── Language / currency selectors ──
     .language-switcher,
     .currency-selector {
       .language-switcher__button,
@@ -74,16 +132,14 @@
         border-radius: 6px;
         cursor: pointer;
 
-        &:hover {
-          background: #f5f5f5;
-          color: #1a1a2e;
-        }
+        &:hover { background: #f5f5f5; color: #1a1a2e; }
       }
     }
 
+    // ── Theme toggle ──
     .toggle-switch {
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 20px;
       width: 34px;
       height: 34px;
       border-radius: 8px;
@@ -94,11 +150,10 @@
       justify-content: center;
       transition: background 0.2s;
 
-      &:hover {
-        background: #f5f5f5;
-      }
+      &:hover { background: #f5f5f5; }
     }
 
+    // ── Generic icon buttons ──
     .nav-btn {
       height: 34px;
       min-width: 34px;
@@ -118,29 +173,20 @@
       transition: background 0.2s, color 0.2s, border-color 0.2s;
       white-space: nowrap;
 
-      &:hover {
-        background: #f5f5f5;
-        color: #1a1a2e;
-        border-color: #ccc;
-      }
+      &:hover { background: #f5f5f5; color: #1a1a2e; border-color: #ccc; }
 
       &.logout {
         border-color: transparent;
         background: #f5f5f5;
         color: #555;
-
-        &:hover {
-          background: #fee2e2;
-          color: #dc2626;
-          border-color: #fca5a5;
-        }
+        &:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
       }
 
       &.chat-btn,
       &.notifications-btn,
       &.favorites-btn,
       &.compare-btn {
-        font-size: 1rem;
+        font-size: 20px;
         padding: 0;
       }
 
@@ -176,6 +222,112 @@
       }
     }
 
+    // ── Add Listing button ──
+    .add-listing-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0 14px;
+      height: 34px;
+      background: #3498db;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: background 0.2s, transform 0.15s;
+      flex-shrink: 0;
+
+      .add-icon {
+        font-size: 1.1rem;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      &:hover {
+        background: #2980b9;
+        transform: translateY(-1px);
+        color: white;
+      }
+
+      &:active { transform: translateY(0); }
+    }
+
+    // ── Avatar dropdown ──
+    .avatar-menu {
+      position: relative;
+
+      .avatar-trigger {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: transparent;
+        border: 1px solid #e5e5e5;
+        border-radius: 24px;
+        padding: 4px 10px 4px 4px;
+        cursor: pointer;
+        transition: background 0.2s, border-color 0.2s;
+
+        &:hover { background: #f5f5f5; border-color: #ccc; }
+
+        img {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .avatar-username {
+          font-size: 0.85rem;
+          font-weight: 500;
+          color: #333;
+          max-width: 90px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .avatar-chevron { font-size: 0.65rem; color: #999; }
+      }
+
+      .avatar-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        background: white;
+        border: 1px solid #e5e5e5;
+        border-radius: 10px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        min-width: 180px;
+        overflow: hidden;
+        z-index: 2000;
+
+        a, button {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 11px 16px;
+          font-size: 0.875rem;
+          color: #444;
+          text-decoration: none;
+          background: transparent;
+          border: none;
+          width: 100%;
+          text-align: left;
+          cursor: pointer;
+          transition: background 0.15s;
+          span { font-size: 1rem; }
+          &:hover { background: #f8f8f8; color: #1a1a2e; }
+        }
+
+        .divider { height: 1px; background: #f0f0f0; margin: 2px 0; }
+
+        button { color: #ef4444; &:hover { background: #fff5f5; color: #ef4444; } }
+      }
+    }
+
+    // ── Auth links (logged-out state) ──
     .auth-link {
       text-decoration: none;
       color: #555;
@@ -186,25 +338,19 @@
       border: 1px solid transparent;
       transition: all 0.2s;
 
-      &:hover {
-        color: #1a1a2e;
-        background: #f5f5f5;
-      }
+      &:hover { color: #1a1a2e; background: #f5f5f5; }
 
       &:last-child {
         background: #1a1a2e;
         color: white;
         border-color: #1a1a2e;
-
-        &:hover {
-          background: #2d2d4e;
-          color: white;
-        }
+        &:hover { background: #2d2d4e; color: white; }
       }
     }
   }
 }
 
+// ── Responsive ───────────────────────────────────────────────────────────────
 @media (max-width: 768px) {
   .navbar {
     padding: 0 1rem;
@@ -212,27 +358,36 @@
 
     .left {
       gap: 1rem;
-
-      a:not(.logo) {
-        display: none;
-      }
+      a:not(.logo) { display: none; }
     }
 
     .right {
-      gap: 0.3rem;
+      gap: 6px;
+
+      .icon-group.utility-group { display: none; }
+      .group-divider { display: none; }
+
+      .add-listing-btn span:last-child { display: none; }
+      .add-listing-btn { padding: 0 10px; }
     }
   }
 }
 
+// ── Dark mode ────────────────────────────────────────────────────────────────
 body.dark {
+  [data-tooltip]::after {
+    background: #e0e0e0;
+    color: #1a1a2e;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
   .navbar {
-    background: rgba(15, 15, 25, 0.96);
-    border-bottom-color: #2a2a3a;
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+    background: var(--nav-bg);
+    border-bottom-color: var(--nav-border);
+    box-shadow: 0 2px 8px var(--nav-shadow);
 
     .left {
       .logo .logo-text { color: #f0f0f0; }
-
       a:not(.logo) {
         color: #aaa;
         &:hover { color: #f0f0f0; border-bottom-color: #f0f0f0; }
@@ -257,15 +412,52 @@ body.dark {
         }
       }
 
+      .add-listing-btn {
+        background: #3498db;
+        color: white;
+        &:hover { background: #2980b9; color: white; }
+      }
+
       .auth-link {
         color: #aaa;
         &:hover { color: #f0f0f0; background: #222; }
-
         &:last-child {
           background: #f0f0f0;
           color: #1a1a2e;
           border-color: #f0f0f0;
           &:hover { background: white; color: #1a1a2e; }
+        }
+      }
+
+      .avatar-menu {
+        .avatar-trigger {
+          border-color: #333;
+          &:hover { background: #222; border-color: #444; }
+          .avatar-username { color: #ccc; }
+        }
+
+        .avatar-dropdown {
+          background: #1e1e2e;
+          border-color: #333;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+          a, button {
+            color: #ccc;
+            &:hover { background: #2a2a3a; color: #fff; }
+          }
+
+          .divider { background: #333; }
+          button { color: #f87171; &:hover { background: rgba(239, 68, 68, 0.1); color: #f87171; } }
+        }
+      }
+
+      .language-switcher,
+      .currency-selector {
+        .language-switcher__button,
+        .currency-selector__button {
+          border-color: #333;
+          color: #aaa;
+          &:hover { background: #222; color: #f0f0f0; }
         }
       }
     }
