@@ -1,8 +1,8 @@
 import "./register.scss";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useState } from "react";
 import apiRequest from "../../lib/apiRequest";
+import OAuthButtons from "../../components/OAuthButtons/OAuthButtons";
 
 function Register() {
   const [error, setError] = useState("");
@@ -45,6 +45,8 @@ function Register() {
           <button disabled={isLoading}>Register</button>
           {error && <span>{error}</span>}
           <Link to="/login">Do you have an account?</Link>
+
+          <OAuthButtons label="or sign up with" />
         </form>
       </div>
       <div className="imgContainer">
