@@ -27,6 +27,9 @@ import About from "./routes/About/About";
 import Contact from "./routes/Contact/Contact";
 import Agents from "./routes/Agents/Agents";
 import RecommendationsPage from "./routes/RecommendationsPage/RecommendationsPage";
+import RecentlyViewedPage from "./routes/recentlyViewed/RecentlyViewedPage";
+import SSOCallback from "./routes/ssoCallback/SSOCallback";
+import SyncUser from "./routes/ssoCallback/SyncUser";
 
 function App() {
   console.log("Estate App is loading properly...");
@@ -55,6 +58,9 @@ function App() {
         { path: "/test-notifications", element: <TestNotifications /> },
         { path: "/property/:id", element: <SinglePage />, loader: singlePageLoader },
         { path: "/recommendations/:propertyId", element: <RecommendationsPage /> },
+        { path: "/recently-viewed", element: <RecentlyViewedPage /> },
+        { path: "/sso-callback", element: <SSOCallback /> },
+        { path: "/sync-user", element: <SyncUser /> },
       ],
     },
     {
