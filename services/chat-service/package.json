@@ -1,0 +1,11 @@
+{
+  "name": "chat-service",
+  "version": "1.0.0",
+  "description": "Chat Service — messaging REST API + Socket.io real-time layer",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js"
+  }
+}

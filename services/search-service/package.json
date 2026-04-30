@@ -1,0 +1,11 @@
+{
+  "name": "search-service",
+  "version": "1.0.0",
+  "description": "Search Service — MongoDB full-text search, Elasticsearch-ready",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "listing-service",
+  "version": "1.0.0",
+  "description": "Listing Service — properties CRUD, bookings, admin",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js"
+  }
+}
