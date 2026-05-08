@@ -10,6 +10,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useFavorites } from "../../context/FavoritesContext";
 import { useRecommendations } from "../../context/RecommendationsContext";
 import { useCurrency } from "../../context/CurrencyContext";
+import { useChatContext } from "../../context/ChatContext";
 import apiRequest from "../../lib/apiRequest";
 import PriceAlert from "../../components/priceAlert/PriceAlert";
 import VisitBooking from "../../components/visitBooking/VisitBookingClean";
@@ -30,6 +31,7 @@ function SinglePage() {
   const { isFavorite, toggleFavorite, shareProperty } = useFavorites();
   const { addToViewingHistory } = useRecommendations();
   const { formatPrice } = useCurrency();
+  const { setChat } = useChatContext();
   const navigate = useNavigate();
   const [showVisitBooking, setShowVisitBooking] = useState(false);
 
@@ -52,6 +54,18 @@ function SinglePage() {
     } catch (err) {
       console.error("Save failed:", err);
       setSaved((prev) => !prev);
+    }
+  };
+
+  const handleChat = async () => {
+    if (!currentUser) { navigate("/login"); return; }
+    if (currentUser.id === post.userId) return;
+    try {
+      const res = await apiRequest.post("/chats", { receiverId: post.userId });
+      setChat({ ...res.data, receiver: post.user });
+      navigate("/");
+    } catch (err) {
+      console.error("Failed to start chat:", err);
     }
   };
 
@@ -288,7 +302,7 @@ function SinglePage() {
               🏠 {t('property.similarProperties')}
             </button>
 
-            <button>
+            <button onClick={handleChat}>
               <img src="/chat.png" alt="Chat" />
               {t('property.sendMessage')}
             </button>

@@ -80,9 +80,10 @@ function Chat() {
     }
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
+      e.stopPropagation();
       handleSend();
     }
   };
@@ -123,7 +124,7 @@ function Chat() {
             {chat?.messages?.map((message) => (
               <div
                 key={message.id}
-                className={`message ${message.senderId === currentUser.id ? "own" : ""}`}
+                className={`message ${message.userId === currentUser.id ? "own" : ""}`}
               >
                 <div className="messageContent">
                   {message.fileUrl && (
@@ -174,7 +175,7 @@ function Chat() {
                 placeholder="Type a message..."
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
               />
 
               <button 

@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 // ✅ DELETE a listing by ID (Only owner can delete)
 router.delete("/:id", verifyToken, async (req, res) => {
-  const listingId = parseInt(req.params.id);
+  const listingId = req.params.id;
   const userId = req.user.id; // from verifyToken
 
   try {
@@ -35,7 +35,7 @@ router.delete("/:id", verifyToken, async (req, res) => {
 
 // ✅ UPDATE listing (only fields you want to allow)
 router.put("/:id", verifyToken, async (req, res) => {
-  const listingId = parseInt(req.params.id);
+  const listingId = req.params.id;
   const userId = req.user.id;
 
   try {

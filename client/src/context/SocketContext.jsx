@@ -10,9 +10,8 @@ export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    // Temporarily disable socket connection to focus on modal functionality
-    // setSocket(io("http://localhost:8800"));
-    setSocket(null);
+    const socketUrl = import.meta.env.VITE_SOCKET_URL || "http://localhost:4000";
+    setSocket(io(socketUrl));
   }, []);
 
   useEffect(() => {

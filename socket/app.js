@@ -4,9 +4,11 @@ import { Server } from "socket.io";
 // Create HTTP server (needed to log startup)
 const httpServer = createServer();
 
+const ALLOWED_ORIGINS = (process.env.CLIENT_URL || "http://localhost:5174").split(",");
+
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5174", // match your frontend port
+    origin: ALLOWED_ORIGINS,
     methods: ["GET", "POST"]
   }
 });

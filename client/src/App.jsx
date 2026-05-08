@@ -1,7 +1,7 @@
 import HomePage from "./routes/homePage/homePage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ListPage from "./routes/listPage/listPage";
-import { Layout, RequireAuth } from "./routes/layout/layout";
+import { Layout, RequireAuth, RequireAdmin } from "./routes/layout/layout";
 import SinglePage from "./routes/singlePage/singlePage";
 import ProfilePage from "./routes/profilePage/profilePage";
 import Login from "./routes/login/login";
@@ -53,9 +53,15 @@ function App() {
         { path: "/notifications", element: <NotificationsPage /> },
         { path: "/notification-settings", element: <NotificationSettings /> },
         { path: "/test-notifications", element: <TestNotifications /> },
-        { path: "/admin", element: <AdminDashboard /> },
         { path: "/property/:id", element: <SinglePage />, loader: singlePageLoader },
         { path: "/recommendations/:propertyId", element: <RecommendationsPage /> },
+      ],
+    },
+    {
+      path: "/",
+      element: <RequireAdmin />,
+      children: [
+        { path: "/admin", element: <AdminDashboard /> },
       ],
     },
     {

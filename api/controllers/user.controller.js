@@ -1,10 +1,14 @@
 import prisma from "../lib/prisma.js";
 import bcrypt from "bcrypt";
 
-// ✅ GET ALL USERS
+// ✅ GET ALL USERS (supports ?search=username)
 export const getUsers = async (req, res) => {
+  const { search } = req.query;
   try {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      where: search ? { username: { contains: search, mode: "insensitive" } } : undefined,
+      select: { id: true, username: true, avatar: true, email: true },
+    });
     res.status(200).json(users);
   } catch (err) {
     console.error(err);

@@ -1,313 +1,253 @@
 @import "../../responsive.scss";
 
 .searchBar {
-  margin-top: 30px;
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0;
 
   .type {
     display: flex;
+    gap: 0;
 
     button {
-      padding: 16px 36px;
-      border: 1px solid #999;
+      padding: 12px 28px;
+      border: 1px solid #ddd;
       border-bottom: none;
       cursor: pointer;
-      background-color: white;
-      text-transform: capitalize;
-      font-size: 16px;
+      background: #f9f9f9;
+      color: #666;
+      font-size: 14px;
       font-weight: 500;
-      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      position: relative;
-      overflow: hidden;
-      
-      // Shimmer effect
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-        transition: left 0.6s ease;
-      }
-
-      &:hover::before {
-        left: 100%;
-      }
-
-      &.active {
-        background: linear-gradient(135deg, #007bff, #0056b3);
-        color: white;
-        font-weight: 600;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-        
-        &::after {
-          content: '';
-          position: absolute;
-          bottom: -1px;
-          left: 0;
-          right: 0;
-          height: 3px;
-          background: linear-gradient(90deg, #fece51, #f39c12);
-          animation: activeGlow 2s ease-in-out infinite alternate;
-        }
-      }
+      transition: background 0.2s, color 0.2s;
 
       &:first-child {
-        border-top-left-radius: 5px;
-        border-right: none;
+        border-radius: 8px 0 0 0;
       }
       &:last-child {
-        border-top-right-radius: 5px;
+        border-radius: 0 8px 0 0;
         border-left: none;
       }
 
-      &:not(.active):hover {
-        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-        transform: translateY(-1px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      &:hover:not(.active) {
+        background: #f0f0f0;
+        color: #333;
+      }
+
+      &.active {
+        background: white;
+        color: #1a1a2e;
+        font-weight: 600;
+        border-color: #ddd;
       }
     }
   }
 
   form {
-    border: 1px solid #999;
     display: flex;
-    justify-content: space-between;
-    height: 64px;
-    gap: 5px;
-    background-color: white;
-    border-radius: 0 0 5px 5px;
+    align-items: center;
+    height: 60px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 0 8px 8px 8px;
+    overflow: visible;
 
     @include sm {
       flex-direction: column;
-      border: none;
       height: auto;
+      border-radius: 8px;
     }
 
     .city-input-container {
       position: relative;
-      width: 200px;
-      
-      input {
-        border: none;
-        padding: 0px 15px;
+      flex: 2;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      border-right: 1px solid #eee;
+
+      @include sm {
         width: 100%;
-        height: 64px;
-        font-size: 16px;
-        outline: none;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+      }
+
+      input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        padding: 0 20px;
+        font-size: 14px;
+        color: #333;
         background: transparent;
+        outline: none;
 
         &::placeholder {
-          color: #888;
-          font-size: 16px;
+          color: #aaa;
         }
 
         @include sm {
-          height: 50px;
-          padding: 0 20px;
-          border-bottom: 1px solid #eee;
+          height: 52px;
+          padding: 0 16px;
         }
       }
 
       .suggestions-dropdown {
         position: absolute;
-        top: 100%;
+        top: calc(100% + 4px);
         left: 0;
         right: 0;
         background: white;
-        border: 1px solid #ccc;
-        border-top: none;
-        max-height: 200px;
-        overflow-y: auto;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         z-index: 9999;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        border-radius: 0 0 8px 8px;
+        overflow: hidden;
 
         .suggestion-item {
-          padding: 12px 15px;
+          padding: 10px 16px;
           cursor: pointer;
           display: flex;
           align-items: center;
           gap: 8px;
           font-size: 14px;
-          transition: background-color 0.2s;
+          color: #444;
           border-bottom: 1px solid #f5f5f5;
+          transition: background 0.15s;
+
+          &:last-child { border-bottom: none; }
 
           &:hover {
-            background-color: #f8f9fa;
-            color: #007bff;
-          }
-
-          &:last-child {
-            border-bottom: none;
+            background: #f8f8f8;
+            color: #1a1a2e;
           }
 
           .city-icon {
-            color: #007bff;
             font-size: 12px;
+            opacity: 0.6;
           }
         }
       }
-
-      @include lg {
-        width: 140px;
-      }
-      @include md {
-        width: 200px;
-      }
-      @include sm {
-        width: auto;
-      }
     }
 
-    input:not(.city-input-container input) {
+    input[type="number"] {
+      flex: 1;
+      height: 100%;
       border: none;
-      padding: 0px 10px;
-      width: 200px;
-      font-size: 16px;
-      outline: none;
+      padding: 0 16px;
+      font-size: 14px;
+      color: #333;
       background: transparent;
+      outline: none;
+      border-right: 1px solid #eee;
 
-      &::placeholder {
-        color: #888;
-        font-size: 16px;
-      }
+      &::placeholder { color: #aaa; }
 
-      @include lg {
-        padding: 0px 5px;
-        width: 140px;
-      }
-
-      @include md {
-        width: 200px;
-      }
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button { -webkit-appearance: none; }
 
       @include sm {
-        width: auto;
-        padding: 15px 20px;
+        height: 52px;
+        width: 100%;
+        border-right: none;
         border-bottom: 1px solid #eee;
-        height: 50px;
+        padding: 0 16px;
       }
     }
 
     a {
-      flex: 0 0 60px;
+      flex: 0 0 64px;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: #fece51;
-      transition: background-color 0.3s;
+      background: #f59e0b;
+      border-radius: 0 7px 7px 0;
+      transition: background 0.2s;
 
       &:hover {
-        background-color: #fdd835;
+        background: #d97706;
       }
 
       button {
         border: none;
         cursor: pointer;
         background: none;
-        padding: 0;
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 0;
 
         img {
           width: 20px;
           height: 20px;
-        }
-
-        @include sm {
-          padding: 10px;
+          filter: none;
         }
       }
 
       @include sm {
+        flex: none;
         width: 100%;
-        padding: 0;
-        height: 50px;
+        height: 52px;
+        border-radius: 0 0 8px 8px;
       }
     }
   }
 }
 
-// 🎨 BUTTON ANIMATIONS
-@keyframes activeGlow {
-  0% {
-    box-shadow: 0 0 5px rgba(254, 206, 81, 0.5);
-  }
-  100% {
-    box-shadow: 0 0 15px rgba(254, 206, 81, 0.8), 0 0 25px rgba(254, 206, 81, 0.4);
-  }
-}
-
-@keyframes ripple {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0;
-  }
-}
-
-// Dark mode styles
 body.dark .searchBar {
   .type button {
-    background-color: #1e1e1e;
-    color: #ddd;
-    border-color: #555;
+    background: #1e1e2e;
+    color: #888;
+    border-color: #333;
 
     &.active {
-      background-color: #2196f3;
-      color: #fff;
+      background: #252535;
+      color: #f0f0f0;
+      border-color: #333;
     }
 
-    &:not(.active):hover {
-      background-color: #2c2c2c;
+    &:hover:not(.active) {
+      background: #252535;
+      color: #ccc;
     }
   }
 
   form {
-    background-color: #2b2b2b;
-    border-color: #555;
+    background: #252535;
+    border-color: #333;
 
     .city-input-container {
+      border-right-color: #333;
+
       input {
         color: #eee;
-        
-        &::placeholder {
-          color: #888;
-        }
+        &::placeholder { color: #666; }
       }
 
       .suggestions-dropdown {
-        background-color: #2b2b2b;
-        border-color: #555;
+        background: #252535;
+        border-color: #333;
 
         .suggestion-item {
-          color: #eee;
-          border-color: #444;
-
-          &:hover {
-            background-color: #3c3c3c;
-            color: #66ccff;
-          }
+          color: #ccc;
+          border-bottom-color: #333;
+          &:hover { background: #2e2e45; color: #fff; }
         }
       }
     }
 
-    input:not(.city-input-container input) {
+    input[type="number"] {
       color: #eee;
+      border-right-color: #333;
+      &::placeholder { color: #666; }
+    }
 
-      &::placeholder {
-        color: #888;
-      }
+    a {
+      background: #f59e0b;
+      &:hover { background: #d97706; }
+
+      button img { filter: none; }
     }
   }
 }

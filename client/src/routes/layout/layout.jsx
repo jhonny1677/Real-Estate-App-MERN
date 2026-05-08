@@ -32,4 +32,13 @@ function RequireAuth() {
   return <BaseLayout />;
 }
 
-export { BaseLayout as Layout, RequireAuth };
+function RequireAdmin() {
+  const { currentUser } = useContext(AuthContext);
+
+  if (!currentUser) return <Navigate to="/login" />;
+  if (currentUser.role !== "admin") return <Navigate to="/" />;
+
+  return <BaseLayout />;
+}
+
+export { BaseLayout as Layout, RequireAuth, RequireAdmin };
