@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  mongodb:
+    image: mongo:6
+    container_name: real-estate-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: real-estate
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: real-estate-api
+    restart: unless-stopped
+    ports:
+      - "8800:8800"
+    depends_on:
+      - mongodb
+    environment:
+      NODE_ENV: production
+      PORT: 8800
+      MONGO_URL: mongodb://mongodb:27017/real-estate
+      JWT_SECRET: your_jwt_secret_here
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: real-estate-client
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+
+volumes:
+  mongo-data:
