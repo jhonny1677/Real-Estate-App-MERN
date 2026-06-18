@@ -51,6 +51,16 @@ router.get("/slots/:postId", async (req, res) => {
 router.post("/confirm", verifyToken, async (req, res) => {
   const { postId, visitType, date, time, fee, contactInfo, notes, paymentId, paymentMethod } = req.body;
 
+  // Reject past dates
+  if (date) {
+    const visitDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (visitDate < today) {
+      return res.status(400).json({ message: "Cannot schedule a visit for a past date." });
+    }
+  }
+
   try {
     // Prevent double-booking the same slot
     const existing = await prisma.booking.findFirst({
@@ -95,6 +105,25 @@ router.get("/my", verifyToken, async (req, res) => {
     res.json(bookings);
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch bookings" });
+  }
+});
+
+// DELETE /api/bookings/:id  — cancel a booking (owner only)
+router.delete("/:id", verifyToken, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const booking = await prisma.booking.findUnique({ where: { id } });
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+    if (booking.userId !== req.user.id) {
+      return res.status(403).json({ message: "Not authorized to cancel this booking" });
+    }
+    await prisma.booking.update({ where: { id }, data: { status: "cancelled" } });
+    res.status(200).json({ message: "Booking cancelled" });
+  } catch (err) {
+    console.error("Cancel booking error:", err);
+    res.status(500).json({ message: "Failed to cancel booking" });
   }
 });
 

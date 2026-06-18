@@ -35,7 +35,7 @@ export const updateUser = async (req, res) => {
   const tokenUserId = req.user.id;
   const { password, avatar, ...inputs } = req.body;
 
-  if (id !== tokenUserId) {
+  if (id !== tokenUserId && req.user.role !== "admin") {
     return res.status(403).json({ message: "Not Authorized!" });
   }
 
@@ -124,7 +124,7 @@ export const profilePosts = async (req, res) => {
       include: { post: true },
     });
 
-    // ✅ Filter out savedPosts that point to deleted posts
+   
     const savedPosts = saved
       .filter((item) => item.post !== null)
       .map((item) => item.post);

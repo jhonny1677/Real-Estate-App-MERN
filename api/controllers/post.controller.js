@@ -297,6 +297,15 @@ export const addPost = async (req, res) => {
 
   if (!tokenUserId) return res.status(401).json({ message: "Unauthorized" });
 
+  if (!body.postData) {
+    return res.status(400).json({ message: "Missing postData" });
+  }
+  const requiredFields = ["title", "price", "address", "city", "type", "property"];
+  const missing = requiredFields.filter((f) => !body.postData[f] && body.postData[f] !== 0);
+  if (missing.length) {
+    return res.status(400).json({ message: `Missing required fields: ${missing.join(", ")}` });
+  }
+
   try {
     const newPost = await prisma.post.create({
       data: {
@@ -332,7 +341,7 @@ export const updatePost = async (req, res) => {
       return res.status(404).json({ message: "Post not found!" });
     }
 
-    if (existingPost.userId !== tokenUserId) {
+    if (existingPost.userId !== tokenUserId && req.user.role !== "admin") {
       return res.status(403).json({ message: "Not authorized to update this post!" });
     }
 
@@ -408,7 +417,10 @@ export const deletePost = async (req, res) => {
       include: { postDetail: true },
     });
 
-    if (!post || post.userId !== tokenUserId) {
+    if (!post) {
+      return res.status(404).json({ message: "Post not found!" });
+    }
+    if (post.userId !== tokenUserId && req.user.role !== "admin") {
       return res.status(403).json({ message: "Not Authorized!" });
     }
 

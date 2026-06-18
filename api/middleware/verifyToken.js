@@ -11,8 +11,9 @@ export const verifyToken = (req, res, next) => {
     
     req.user = {
       id: payload.id,
-      email: payload.email,   // Optional, if encoded
-      username: payload.username // Optional
+      role: payload.role,
+      email: payload.email,
+      username: payload.username,
     };
 
     next();
