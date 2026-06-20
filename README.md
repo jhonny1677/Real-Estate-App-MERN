@@ -146,4 +146,42 @@ npm run cy:run
 
 ## Screenshots
 
-Coming soon.
+### Home Page
+![Home Page](screenshots/Screenshot%202026-06-19%20195345.png)
+
+### Property Listings
+![Property Listings](screenshots/Screenshot%202026-06-19%20195822.png)
+
+### Property Detail — Overview
+![Property Detail](screenshots/Screenshot%202026-06-19%20195910.png)
+
+### Property Detail — Info & Policies
+![Property Overview Tab](screenshots/Screenshot%202026-06-19%20200014.png)
+
+### Features & Amenities
+![Features and Amenities](screenshots/Screenshot%202026-06-19%20200048.png)
+
+### Mortgage Calculator
+![Mortgage Calculator](screenshots/Screenshot%202026-06-19%20200129.png)
+
+### Weather at Property Location
+![Weather](screenshots/Screenshot%202026-06-19%20200208.png)
+
+### Nearby Places Map
+![Nearby Places](screenshots/Screenshot%202026-06-19%20200254.png)
+
+### Recently Viewed
+![Recently Viewed](screenshots/Screenshot%202026-06-19%20195515.png)
+
+### Notifications Center
+![Notifications](screenshots/Screenshot%202026-06-19%20195644.png)
+
+### Real-time Chat
+![Chat](screenshots/Screenshot%202026-06-19%20201333.png)
+
+### Add New Listing
+![Add Listing](screenshots/Screenshot%202026-06-19%20201040.png)
+![Add Listing Form](screenshots/Screenshot%202026-06-19%20201134.png)
+
+### Login Page
+![Login](screenshots/Screenshot%202026-06-19%20200353.png)
