@@ -119,7 +119,7 @@ function Navbar() {
                 </button>
               </Link>
 
-              <Link to="/add-listing" className="add-listing-btn" data-tooltip="Create a new listing">
+              <Link to="/add" className="add-listing-btn" data-tooltip="Create a new listing">
                 <span className="add-icon">+</span>
                 <span>Add Listing</span>
               </Link>

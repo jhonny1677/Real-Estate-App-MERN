@@ -38,21 +38,12 @@ function NewPostPage() {
           latitude: inputs.latitude,
           longitude: inputs.longitude,
           images: images,
-          size: parseInt(inputs.size) || 0,
+          sqft: parseInt(inputs.size) || 0,
           yearBuilt: parseInt(inputs.yearBuilt) || new Date().getFullYear(),
           amenities: amenities,
           features: features,
           floorPlan: inputs.floorPlan || "",
           virtualTour: inputs.virtualTour || "",
-        },
-        postDetail: {
-          desc: value,
-          utilities: inputs.utilities,
-          petPolicy: inputs.pet,
-          income: inputs.income,
-          school: parseInt(inputs.school),
-          bus: parseInt(inputs.bus),
-          restaurant: parseInt(inputs.restaurant),
           neighborhood: {
             schools: schools.filter(s => s.name),
             healthcare: healthcare.filter(h => h.name),
@@ -61,13 +52,22 @@ function NewPostPage() {
             safetyScore: parseFloat(inputs.safetyScore) || 8.0,
             walkScore: parseInt(inputs.walkScore) || 70,
             transitScore: parseInt(inputs.transitScore) || 65
-          }
+          },
+        },
+        postDetail: {
+          desc: value,
+          utilities: inputs.utilities,
+          pet: inputs.pet,
+          income: inputs.income,
+          school: parseInt(inputs.school),
+          bus: parseInt(inputs.bus),
+          restaurant: parseInt(inputs.restaurant),
         },
       });
       navigate("/"+res.data.id)
     } catch (err) {
       console.log(err);
-      setError(error);
+      setError(err.response?.data?.message || err.message || "Something went wrong");
     }
   };
 
@@ -249,7 +249,7 @@ function NewPostPage() {
             </div>
             
             <button className="sendButton">Add</button>
-            {error && <span>error</span>}
+            {error && <span>{error}</span>}
           </form>
         </div>
       </div>

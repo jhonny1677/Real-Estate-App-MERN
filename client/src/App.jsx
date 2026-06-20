@@ -1,5 +1,5 @@
 import HomePage from "./routes/homePage/homePage";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import ListPage from "./routes/listPage/listPage";
 import { Layout, RequireAuth, RequireAdmin } from "./routes/layout/layout";
 import SinglePage from "./routes/singlePage/singlePage";
@@ -61,6 +61,7 @@ function App() {
         { path: "/recently-viewed", element: <RecentlyViewedPage /> },
         { path: "/sso-callback", element: <SSOCallback /> },
         { path: "/sync-user", element: <SyncUser /> },
+        { path: "/add-listing", element: <Navigate to="/add" replace /> },
       ],
     },
     {
